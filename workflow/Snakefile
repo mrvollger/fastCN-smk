@@ -8,7 +8,7 @@ min_version("6.6")
 SDIR = os.path.realpath(os.path.dirname(srcdir("Snakefile")))
 shell.prefix(f"set -eo pipefail;")
 
-mask_config = {"samples":{"FastCN":config["fasta"]}}
+mask_config = {"samples": {"FastCN": config["fasta"]}}
 
 
 wildcard_constraints:
@@ -58,7 +58,7 @@ rule exclude_file:
     output:
         bed="results/{sample}.exclude.bed",
     params:
-        window = 400,
+        window=400,
     shell:
         """
         zcat -f -- \
@@ -82,7 +82,7 @@ rule fastCN_GC_mask:
     log:
         "logs/{sample}.GC_mask.log",
     params:
-        window = 400,
+        window=400,
     shell:
         """
         export PATH=$PWD/fastCN:$PATH
