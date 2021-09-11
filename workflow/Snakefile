@@ -3,59 +3,83 @@ import sys
 import math
 from snakemake.utils import min_version
 
-min_version("6.0")
+min_version("6.6")
 
 SDIR = os.path.realpath(os.path.dirname(srcdir("Snakefile")))
 shell.prefix(f"set -eo pipefail;")
 
-
-report: "report/workflow.rst"
-
-
-configfile: "config/config.yaml"
+mask_config = {"samples":{"FastCN":config["fasta"]}}
 
 
-TEMP_DIR = config.pop("tempdir", "temp")
-if TEMP_DIR != "temp":
-    if os.path.exists("temp"):
-        if os.path.islink("temp") and os.path.realpath("temp") == os.path.realpath(
-            TEMP_DIR
-        ):
-            print("The temp dir has already been linked.")
-        else:
-            sys.exit("temp/ already in use, please move it before running.")
-    else:
-        shell("ln -s {TEMP_DIR} temp")
+wildcard_constraints:
+    sample="FastCN",
+
+
+module Rhodonite:
+    snakefile:
+        "https://github.com/mrvollger/Rhodonite/raw/master/workflow/Snakefile"
+    config:
+        mask_config
+
+
+# import the rules from Rhodonite
+use rule * from Rhodonite as Rhodonite_*
 
 
 rule all:
     input:
-        [],
+        expand("results/{sample}.bin", sample="FastCN"),
 
 
-rule RepeatMasker:
+rule mask_file:
     input:
-        fasta="a.fasta",
+        rm=rules.Rhodonite_RepeatMasker.output.bed,
+        trf=rules.Rhodonite_trf.output.bed,
+        gaps=rules.Rhodonite_gaps.output.bed,
+        fai=f'{config["fasta"]}.fai',
     output:
-        out="a.out",
-    resources:
-        mem=config.get("mem", 8),
-    threads: config.get("threads", 8)
-    conda:
-        "envs/env.yml"
-    log:
-        "rm.out.log",
-    params:
-        opts=config.get("RepeatMaskerOptions", "-s -xsamll -e ncbi"),
-        species=config.get("RepeatMaskerSpecies", "human"),
+        bed="results/{sample}.mask.bed",
     shell:
         """
-        RepeatMasker \
-            -s \
-            -xsmall \
-            -e ncbi \
-            -species {params.species} \
-            -dir $(dirname {input.fasta}) \
-            -pa {threads} \
-            {input.fasta}  2> {log}
+        cat {input.rm} {input.trf} {input.gaps} \
+            | bedtools sort -i - -g {input.fai} \
+            | bedtools slop -i - -g {input.fai} -b 36 \
+            | bedtools merge -i - \
+        > {output.bed}
+        """
+
+
+rule exclude_file:
+    input:
+        sd=config["sd"],
+        wm=rules.Rhodonite_windowmasker.output.bed,
+        fai=f'{config["fasta"]}.fai',
+    output:
+        bed="results/{sample}.exclude.bed",
+    shell:
+        """
+        cat {input.wm} {input.sd} \
+            | bedtools sort -i - -g {input.fai} \
+            | bedtools merge -i - \
+        > {output.bed}
+        """
+
+
+rule fastCN_GC_mask:
+    input:
+        mask=rules.mask_file.output.bed,
+        exclude=rules.exclude_file.output.bed,
+        fasta=config["fasta"],
+        fai=f'{config["fasta"]}.fai',
+    output:
+        bin="results/{sample}.bin",
+    shell:
+        """
+        export PATH=$PWD/fastCN:$PATH
+        GC_control_gen \
+            {input.fasta} \
+            {input.exclude} \
+            {input.mask} \
+            400 \
+            {output.bin} \
         """
