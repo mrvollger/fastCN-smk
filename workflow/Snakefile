@@ -41,7 +41,8 @@ rule mask_file:
         bed="results/{sample}.mask.bed",
     shell:
         """
-        cat {input.rm} {input.trf} {input.gaps} \
+        zcat -f -- {input.rm} {input.trf} {input.gaps} \
+            | cut -f 1-3 \
             | bedtools sort -i - -g {input.fai} \
             | bedtools slop -i - -g {input.fai} -b 36 \
             | bedtools merge -i - \
@@ -58,7 +59,8 @@ rule exclude_file:
         bed="results/{sample}.exclude.bed",
     shell:
         """
-        cat {input.wm} {input.sd} \
+        zcat -f -- {input.wm} {input.sd} \
+            | cut -f 1-3 \
             | bedtools sort -i - -g {input.fai} \
             | bedtools merge -i - \
         > {output.bed}
