@@ -57,9 +57,13 @@ rule exclude_file:
         fai=f'{config["fasta"]}.fai',
     output:
         bed="results/{sample}.exclude.bed",
+    params:
+        window = 400,
     shell:
         """
-        zcat -f -- {input.wm} {input.sd} \
+        zcat -f -- \
+                {input.wm} \
+                <(bedtools slop -b {params.window} -g {input.fai} -i {input.sd}) \
             | cut -f 1-3 \
             | bedtools sort -i - -g {input.fai} \
             | bedtools merge -i - \
@@ -75,6 +79,10 @@ rule fastCN_GC_mask:
         fai=f'{config["fasta"]}.fai',
     output:
         bin="results/{sample}.bin",
+    log:
+        "logs/{sample}.GC_mask.log",
+    params:
+        window = 400,
     shell:
         """
         export PATH=$PWD/fastCN:$PATH
@@ -82,6 +90,7 @@ rule fastCN_GC_mask:
             {input.fasta} \
             {input.exclude} \
             {input.mask} \
-            400 \
+            {params.window} \
             {output.bin} \
+            > {log} 2>&1
         """
