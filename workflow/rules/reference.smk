@@ -76,7 +76,6 @@ rule fastcn_GC_bin:
         window=400,
     shell:
         """
-        export PATH=$PWD/fastCN:$PATH
         GC_control_gen \
             {input.fasta} \
             {input.exclude} \
