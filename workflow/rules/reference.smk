@@ -1,4 +1,4 @@
-mask_config = {"samples": {"FastCN": config["fasta"]}}
+mask_config = {"samples": {config["reference"]: config["fasta"]}}
 
 
 wildcard_constraints:
