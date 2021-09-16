@@ -1,3 +1,9 @@
+mask_config = {"samples": {"FastCN": config["fasta"]}}
+
+
+wildcard_constraints:
+    sample="FastCN",
+
 
 module Rhodonite:
     snakefile:
@@ -18,6 +24,8 @@ rule mask_file:
         fai=f'{config["fasta"]}.fai',
     output:
         bed="results/{sample}.mask.bed",
+    conda:
+        "../envs/env.yml"
     shell:
         """
         zcat -f -- {input.rm} {input.trf} {input.gaps} \
@@ -36,6 +44,8 @@ rule exclude_file:
         fai=f'{config["fasta"]}.fai',
     output:
         bed="results/{sample}.exclude.bed",
+    conda:
+        "../envs/env.yml"
     params:
         window=400,
     shell:
@@ -60,6 +70,8 @@ rule fastcn_GC_bin:
         bin="results/{sample}/{sample}.bin",
     log:
         "logs/{sample}.GC_mask.log",
+    conda:
+        "../envs/env.yml"
     params:
         window=400,
     shell:
@@ -81,35 +93,35 @@ rule masked_reference:
         fasta=config["fasta"],
         fai=f'{config["fasta"]}.fai',
     output:
-        fa="results/{sample}/{sample}.masked.fasta",
+        fasta="results/{sample}/{sample}.masked.fasta",
         fai="results/{sample}/{sample}.masked.fasta.fai",
     conda:
-        "envs/env.yml"
+        "../envs/env.yml"
     log:
         "logs/{sample}/mask_reference.log",
     shell:
         """
         seqtk seq -M {input.mask} -n N \
             {input.fasta} -l 60 \
-            > {output.fa}
-        samtools faidx {output.fa}
+            > {output.fasta}
+        samtools faidx {output.fasta}
         """
 
 
 rule make_windows:
     input:
-        fa=rules.masked_reference.output.fa,
+        fasta=rules.masked_reference.output.fasta,
     output:
         bed="results/{sample}/{sample}.windows.bed",
     threads: 1
     conda:
-        "envs/env.yml"
+        "../envs/env.yml"
     log:
         "logs/{sample}/make_windows.log",
     params:
         window=config.get("window", 1000),
     script:
-        "scripts/make_windows.py"
+        "../scripts/windows.py"
 
 
 rule autosome_control_windows:
@@ -119,13 +131,15 @@ rule autosome_control_windows:
         windows=rules.make_windows.output.bed,
     output:
         bed="results/{sample}/{sample}_auto_control.bed",
+    conda:
+        "../envs/env.yml"
     resources:
         mem=8,
         hrs=24,
     threads: 1
     shell:
         """
-        cat {input.mask} {input.exclude} \
+        less {input.mask} {input.exclude} \
             | bedtools sort -i - \
             | bedtools merge -i - \
             | bedtools subtract -A -a {input.windows} -b - \
@@ -148,10 +162,10 @@ rule chrX_control_windows:
     threads: 1
     shell:
         """
-        cat {input.mask} {input.exclude} \
+        (less {input.mask} {input.exclude} \
             | bedtools sort -i - \
             | bedtools merge -i - \
             | bedtools subtract -A -a {input.windows} -b - \
-            | grep -w chrX \
+            | grep -w chrX  || echo "" ) \
             > {output.bed}
         """
