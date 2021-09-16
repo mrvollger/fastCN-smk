@@ -46,9 +46,10 @@ rule mrsfast_index:
 rule mrsfast_alignment:
     input:
         reads="temp/reads/{sm}/{scatteritem}.fq.gz",
-        ref=rules.mrsfast_index.output.index,
+        index=rules.mrsfast_index.output.index,
+        ref=config.get("masked_ref", rules.masked_reference.output.fasta),
     output:
-        sam=pipe("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
+        sam=temp("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
     resources:
         mem=4,
         hrs=24,
@@ -56,10 +57,10 @@ rule mrsfast_alignment:
     shell:
         """
         extract-from-fastq36.py --in {input.reads} \
-            | mrsfast --search {input.ref} --seq /dev/fd/0 \
+            | mrsfast --search {input.ref} --seq /dev/stdin \
                 --disable-nohits --mem {resources.mem} --threads {threads} \
                 -e 2 --outcomp \
-                -o $(dirname {output.sam})/{wildcards.scatteritem}
+                -o {output.sam}
         """
 
 
