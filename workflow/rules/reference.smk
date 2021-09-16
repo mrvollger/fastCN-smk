@@ -26,7 +26,7 @@ rule mask_file:
         gaps=rules.Rhodonite_gaps.output.bed,
         fai=f'{config["fasta"]}.fai',
     output:
-        bed="results/{sample}.mask.bed",
+        bed="results/{sample}/{sample}.mask.bed",
     conda:
         "../envs/env.yml"
     shell:
@@ -46,7 +46,7 @@ rule exclude_file:
         wm=rules.Rhodonite_windowmasker.output.bed,
         fai=f'{config["fasta"]}.fai',
     output:
-        bed="results/{sample}.exclude.bed",
+        bed="results/{sample}/{sample}.exclude.bed",
     conda:
         "../envs/env.yml"
     params:

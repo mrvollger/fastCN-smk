@@ -17,7 +17,7 @@ rule GC_correct:
         zcat {input.merged} \
             | SAM_GC_correction \
                 {input.fai} {input.bin} /dev/stdin \
-                results/binary/{wildcards.sample}/{wildcards.sm}
+                $(dirname {output.binary})/{wildcards.sm}
         """
 
 
