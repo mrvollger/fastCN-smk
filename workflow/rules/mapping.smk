@@ -53,7 +53,7 @@ rule mrsfast_alignment:
         index=rules.mrsfast_index.output.index,
         ref=config.get("masked_ref", rules.masked_reference.output.fasta),
     output:
-        sam=temp("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
+        sam=pipe("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
     conda:
         "../envs/env.yml"
     resources:
@@ -89,7 +89,7 @@ rule mrsfast_sort:
         """
 
 
-rule merge_bam:
+rule merged_mrsfast_bam:
     input:
         bams=gather.split("temp/mrsfast/{{sample}}/{{sm}}/{scatteritem}.bam"),
     output:

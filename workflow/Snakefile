@@ -31,7 +31,7 @@ num_contigs_in_ref = fai_df.shape[0]
 rule all:
     input:
         expand(
-            rules.merge_bam.output,
+            rules.make_bb.output,
             sm=config["reads"].keys(),
             sample=config["reference"],
         ),
