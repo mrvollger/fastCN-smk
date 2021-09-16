@@ -66,7 +66,7 @@ rule mrsfast_alignment:
             | mrsfast --search {input.ref} --seq /dev/stdin \
                 --disable-nohits --mem {resources.mem} --threads {threads} \
                 -e 2 --outcomp \
-                -o $(dirname {output.sam})/{wildcards.scatteritem}.sam.gz
+                -o $(dirname {output.sam})/{wildcards.scatteritem}
         """
 
 
