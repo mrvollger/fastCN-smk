@@ -2,7 +2,7 @@
 rule GC_correct:
     input:
         merged=rules.merged_mrsfast_bam.output.merged,
-        fai=config.get("masked_ref", rules.masked_reference.output.fai),
+        fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
         bin=config.get("gc_control", rules.fastcn_GC_bin.output.bin),
     output:
         binary=temp("results/binary/{sample}/{sm}.bin"),
@@ -40,7 +40,7 @@ rule gzip_bin:
 
 rule convert_windows:
     input:
-        fai=config.get("masked_ref", rules.masked_reference.output.fai),
+        fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
         binary=rules.gzip_bin.output.zipped,
         ref_windows=config.get("masked_ref", rules.make_windows.output.bed),
     output:
