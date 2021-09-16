@@ -8,12 +8,6 @@ min_version("6.6")
 SDIR = os.path.realpath(os.path.dirname(srcdir("Snakefile")))
 shell.prefix(f"set -eo pipefail;")
 
-mask_config = {"samples": {"FastCN": config["fasta"]}}
-
-
-wildcard_constraints:
-    sample="FastCN",
-
 
 include: "rules/reference.smk"
 
@@ -25,5 +19,5 @@ rule all:
             + rules.make_windows.output
             + rules.autosome_control_windows.output
             + rules.chrX_control_windows.output,
-            sample="FastCN",
+            sample=config["reference"],
         ),
