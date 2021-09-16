@@ -14,6 +14,8 @@ rule split_reads:
         reads=lambda wc: config["reads"][wc.sm],
     output:
         reads=temp(scatter.split("temp/reads/{{sm}}/{scatteritem}.fq.gz")),
+    conda:
+        "../envs/env.yml"
     resources:
         mem=4,
         hrs=8,
@@ -33,6 +35,8 @@ rule mrsfast_index:
         ref=config.get("masked_ref", rules.masked_reference.output.fasta),
     output:
         index=config.get("masked_ref", rules.masked_reference.output.fasta) + ".index",
+    conda:
+        "../envs/env.yml"
     resources:
         mem=8,
         hrs=24,
@@ -50,6 +54,8 @@ rule mrsfast_alignment:
         ref=config.get("masked_ref", rules.masked_reference.output.fasta),
     output:
         sam=temp("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
+    conda:
+        "../envs/env.yml"
     resources:
         mem=4,
         hrs=24,
@@ -69,6 +75,8 @@ rule mrsfast_sort:
         sam=rules.mrsfast_alignment.output.sam,
     output:
         bam=temp("temp/mrsfast/{sample}/{sm}/{scatteritem}.bam"),
+    conda:
+        "../envs/env.yml"
     resources:
         mem=4,
         hrs=24,
@@ -85,6 +93,8 @@ rule merge_bam:
         bams=gather.split("temp/mrsfast/{{sample}}/{{sm}}/{scatteritem}.bam"),
     output:
         merged="results/{sample}/mapping/{sm}_merged.out.gz",
+    conda:
+        "../envs/env.yml"
     resources:
         mem=8,
         hrs=24,
