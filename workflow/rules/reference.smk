@@ -16,6 +16,9 @@ module Rhodonite:
 use rule * from Rhodonite as Rhodonite_*
 
 
+shell.prefix(f"export PATH=$PWD/fastCN:$PATH; set -eo pipefail;")
+
+
 rule mask_file:
     input:
         rm=rules.Rhodonite_RepeatMasker.output.bed,
@@ -82,7 +85,7 @@ rule fastcn_GC_bin:
             {input.mask} \
             {params.window} \
             {output.bin} \
-            > {log} 2>&1
+            #> {log} 2>&1
         """
 
 
@@ -165,6 +168,6 @@ rule chrX_control_windows:
             | bedtools sort -i - \
             | bedtools merge -i - \
             | bedtools subtract -A -a {input.windows} -b - \
-            | grep -w chrX  || echo "" ) \
+            | grep -w chrX  || true ) \
             > {output.bed}
         """

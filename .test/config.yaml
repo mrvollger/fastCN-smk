@@ -1,3 +1,5 @@
 reference: "test-reference"
 fasta: .test/test.fasta
 sd: .test/test.sds.bed
+mappings:
+  fake_sm: .test/fake_sm.mapping.bed.gz
