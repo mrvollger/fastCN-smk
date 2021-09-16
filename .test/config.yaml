@@ -1,3 +1,3 @@
-reference: "chr21"
-fasta: .test/chr21.fasta
-sd: .test/chr21.SDs.bed
+reference: "test-reference"
+fasta: .test/test.fasta
+sd: .test/test.sds.bed
