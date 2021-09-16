@@ -2,7 +2,7 @@ mask_config = {"samples": {config["reference"]: config["fasta"]}}
 
 
 wildcard_constraints:
-    sample="FastCN",
+    sample=config["reference"],
 
 
 module Rhodonite:
