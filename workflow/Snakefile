@@ -2,6 +2,7 @@ import os
 import sys
 import math
 from snakemake.utils import min_version
+import pandas as pd
 
 min_version("6.6")
 
@@ -10,18 +11,28 @@ shell.prefix(f"export PATH=$PWD/fastCN:$PATH; set -eo pipefail;")
 
 
 include: "rules/reference.smk"
+include: "rules/mapping.smk"
 include: "rules/cn-calling.smk"
 
 
 wildcard_constraints:
-    sm="|".join(config["mappings"].keys()),
+    sm="|".join(config["reads"].keys()),
+
+
+fai_df = pd.read_csv(
+    f'{config["fasta"]}.fai',
+    sep="\t",
+    header=None,
+    names=["chr", "length", "offset", "bases", "bytes"],
+)
+num_contigs_in_ref = fai_df.shape[0]
 
 
 rule all:
     input:
         expand(
-            rules.make_bb.output,
-            sm=config["mappings"].keys(),
+            rules.merge_bam.output,
+            sm=config["reads"].keys(),
             sample=config["reference"],
         ),
 

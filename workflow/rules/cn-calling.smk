@@ -1,7 +1,7 @@
 
 rule GC_correct:
     input:
-        merged=lambda wc: config["mappings"][wc.sm],
+        merged=lambda wc: config["reads"][wc.sm],
         fai=config.get("masked_ref", rules.masked_reference.output.fai),
         bin=config.get("gc_control", rules.fastcn_GC_bin.output.bin),
     output:
