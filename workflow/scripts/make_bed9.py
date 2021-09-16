@@ -54,4 +54,4 @@ df[
         "color",
         "cn",
     ]
-].to_csv(snakeamke.output.bed9, sep="\t", index=False, header=False)
+].to_csv(snakemake.output.bed9, sep="\t", index=False, header=False)
