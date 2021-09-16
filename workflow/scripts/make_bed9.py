@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 color_hash = {
     0: "229,229,229",
