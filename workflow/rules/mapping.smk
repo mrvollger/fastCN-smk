@@ -83,7 +83,8 @@ rule mrsfast_sort:
     threads: 4
     shell:
         """
-        samtools view -b {input.sam} \
+        zcat {input.sam} \
+            | samtools view -b - \
             | samtools sort -@ {threads} -o {output.bam} -
         """
 
