@@ -18,7 +18,7 @@ rule split_reads:
         mem=4,
         hrs=8,
     params:
-        SDIR=SDIR,
+        sdir=SDIR,
     threads: 1
     shell:
         """
@@ -28,10 +28,25 @@ rule split_reads:
         """
 
 
+rule mrsfast_index:
+    input:
+        ref=config.get("masked_ref", rules.masked_reference.output.fasta),
+    output:
+        index=config.get("masked_ref", rules.masked_reference.output.fasta) + ".index",
+    resources:
+        mem=8,
+        hrs=24,
+    threads: 1
+    shell:
+        """
+        mrsfast --index {input.ref}
+        """
+
+
 rule mrsfast_alignment:
     input:
         reads="temp/reads/{sm}/{scatteritem}.fq.gz",
-        ref=MRSFAST_REF,
+        ref=rules.mrsfast_index.output.index,
     output:
         sam=pipe("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
     resources:
@@ -44,7 +59,7 @@ rule mrsfast_alignment:
             | mrsfast --search {input.ref} --seq /dev/fd/0 \
                 --disable-nohits --mem {resources.mem} --threads {threads} \
                 -e 2 --outcomp \
-                -o $(dirname {output.sam})/{wildcards.chunk}
+                -o $(dirname {output.sam})/{wildcards.scatteritem}
         """
 
 

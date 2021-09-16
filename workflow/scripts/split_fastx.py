@@ -18,8 +18,8 @@ if __name__ == "__main__":
 
     outs = [gzip.open(f, "wb") for f in args.outputs]
     out_idx = 0
-    for idx, rec in pysam.FastxFile(args.infile, persist=False):
-        outs[out_idx].write(str(rec).encode())
+    for rec in pysam.FastxFile(args.infile, persist=False):
+        outs[out_idx].write((str(rec) + "\n").encode())
 
         out_idx += 1
         if out_idx == N_IDS:
