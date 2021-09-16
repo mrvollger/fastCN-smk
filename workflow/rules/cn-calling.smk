@@ -5,7 +5,7 @@ rule GC_correct:
         fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
         bin=config.get("gc_control", rules.fastcn_GC_bin.output.bin),
     output:
-        binary=temp("results/binary/{sample}/{sm}.bin"),
+        binary=pipe("results/{sample}/binary/{sm}.bin"),
     conda:
         "../envs/env.yml"
     resources:
@@ -25,7 +25,7 @@ rule gzip_bin:
     input:
         binary=rules.GC_correct.output.binary,
     output:
-        zipped="results/binary/{sample}/{sm}.bin.gz",
+        zipped="results/{sample}/binary/{sm}.bin.gz",
     conda:
         "../envs/env.yml"
     resources:
@@ -44,7 +44,7 @@ rule convert_windows:
         binary=rules.gzip_bin.output.zipped,
         ref_windows=config.get("masked_ref", rules.make_windows.output.bed),
     output:
-        windows="results/windows/{sample}/{sm}.depth.bed",
+        windows="results/{sample}/windows/{sm}.depth.bed",
     conda:
         "../envs/env.yml"
     resources:
@@ -71,7 +71,7 @@ rule copy_number_call:
             "chrX_control", rules.chrX_control_windows.output.bed
         ),
     output:
-        cn_bed="results/windows/{sample}/{sm}.depth.bed.CN.bed",
+        cn_bed="results/{sample}/windows/{sm}.depth.bed.CN.bed",
     conda:
         "../envs/env.yml"
     resources:
@@ -88,7 +88,7 @@ rule bed_to_bed9:
     input:
         cn_bed=rules.copy_number_call.output.cn_bed,
     output:
-        bed9=temp("results/tracks/{sample}/{sm}.bed9"),
+        bed9=temp("results/{sample}/tracks/bed9/{sm}.bed9"),
     conda:
         "../envs/env.yml"
     resources:
@@ -104,7 +104,7 @@ rule make_bb:
         bed=rules.bed_to_bed9.output.bed9,
         fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
     output:
-        track="results/tracks/{sample}/{sm}_wssd.bb",
+        track="results/{sample}/tracks/bigbed/{sm}_wssd.bb",
     conda:
         "../envs/env.yml"
     resources:
