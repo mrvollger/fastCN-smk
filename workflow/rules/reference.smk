@@ -141,7 +141,7 @@ rule autosome_control_windows:
     threads: 1
     shell:
         """
-        less {input.mask} {input.exclude} \
+        zcat -f -- {input.mask} {input.exclude} \
             | bedtools sort -i - \
             | bedtools merge -i - \
             | bedtools subtract -A -a {input.windows} -b - \
@@ -161,10 +161,12 @@ rule chrX_control_windows:
     resources:
         mem=8,
         hrs=24,
+    conda:
+        "../envs/env.yml"
     threads: 1
     shell:
         """
-        (less {input.mask} {input.exclude} \
+        (zcat -f -- {input.mask} {input.exclude} \
             | bedtools sort -i - \
             | bedtools merge -i - \
             | bedtools subtract -A -a {input.windows} -b - \

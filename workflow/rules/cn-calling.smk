@@ -99,28 +99,6 @@ rule bed_to_bed9:
         "../scripts/make_bed9.py"
 
 
-rule make_bb:
-    input:
-        bed=rules.bed_to_bed9.output.bed9,
-        fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
-    output:
-        track="results/{sample}/tracks/bigbed/{sm}_wssd.bb",
-    conda:
-        "../envs/env.yml"
-    resources:
-        mem=2,
-        hrs=24,
-    threads: 1
-    params:
-        as_file=f"{SDIR}/utils/track.as",
-    shell:
-        """
-        bedToBigBed -tab -type=bed9+1 \
-            -as={params.as_file} \
-            {input.bed} {input.fai} {output.track}
-        """
-
-
 '''
 rule wssd_binary:
     input:
