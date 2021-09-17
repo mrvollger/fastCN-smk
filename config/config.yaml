@@ -1,9 +1,10 @@
 reference: "t2t-chm13-v1.1"
-fasta: .test/test.fasta
-sd: .test/test.sds.bed
+fasta: /net/eichler/vol26/projects/chm13_t2t/nobackups/assemblies/chm13_v1.1_plus38Y.fasta
+sd: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/SEDEF/chm13_v1.1_plus38Y.SDs.bed
 nchunks: 50
 manifest: config/manifest.tbl
-RepeatMasker: .test/test.rmsk.bed
-trf: .test/test.trf.bed
-# gaps:
-# windowmasker:
+# the folowing will be made if they are not provided 
+RepeatMasker: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/chm13_v1.1_plus38Y_repeatmasker.out.bed
+trf: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/chm13_v1.1_plus38Y_trf.bed
+gaps: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/chm13_v1.1_plus38Y.Ns.bed
+# windowmasker: somefile
