@@ -19,8 +19,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Checkout submodules
         uses: textbook/git-checkout-submodule-action@2.0.0
+      - uses: actions-rs/toolchain@v1
       - name: build application
-        uses: actions-rs/toolchain@v1
         run: make
       - name: Test workflow
         uses: snakemake/snakemake-github-action@v1.22.0
