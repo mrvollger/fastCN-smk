@@ -22,8 +22,8 @@ rule split_reads:
     params:
         sdir=SDIR,
     benchmark:
-        "benchmarks/split_reads/{sample}.tbl"
-    threads: 1
+        "benchmarks/split_reads/{sm}.tbl"
+    threads: 4
     shell:
         """
         if [[ {input.reads} =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
@@ -31,7 +31,7 @@ rule split_reads:
                 | seqtk seq -F '#' \
                 | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
         elif [[ {input.reads} =~ \.(bam|cram|sam|sam.gz)$ ]]; then 
-            samtools fasta {input.reads} \
+            samtools fasta -@ {threads} {input.reads} \
                 | seqtk seq -F '#' \
                 | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
         fi 
