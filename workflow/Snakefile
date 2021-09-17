@@ -36,18 +36,6 @@ include: "rules/cn-calling.smk"
 rule all:
     input:
         expand(
-            rules.make_bb.output,
-            sm=config["reads"].keys(),
+            rules.make_trackdb.output,
             sample=config["reference"],
         ),
-
-
-"""
-        expand(
-            rules.fastcn_GC_bin.output
-            + rules.make_windows.output
-            + rules.autosome_control_windows.output
-            + rules.chrX_control_windows.output,
-            sample=config["reference"],
-        ),
-"""
