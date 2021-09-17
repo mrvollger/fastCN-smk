@@ -85,7 +85,7 @@ rule fastcn_GC_bin:
             {input.mask} \
             {params.window} \
             {output.bin} \
-            #> {log} 2>&1
+            > {log} 2>&1
         """
 
 
