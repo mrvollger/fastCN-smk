@@ -7,7 +7,7 @@ fastCN/GC_control_gen:
 		&& g++ -o GC_control_gen GC_control_gen.cc \
 		&& g++ -o SAM_GC_correction SAM_GC_correction.cc \
 		&& cd .. \
-		cargo install rustybam 
+		&& cargo install rustybam 
 
 
 .PHONY: clean
