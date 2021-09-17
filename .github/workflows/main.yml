@@ -20,6 +20,9 @@ jobs:
       - name: Checkout submodules
         uses: textbook/git-checkout-submodule-action@2.0.0
       - uses: actions-rs/toolchain@v1
+      - uses: hecrj/setup-rust-action@v1
+        with:
+          rust-version: stable
       - name: build application
         run: make
       - name: Test workflow
