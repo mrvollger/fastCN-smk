@@ -6,7 +6,7 @@ import sys
 
 
 scattergather:
-    split=config.get("nchunks", 50),
+    split=config.get("nchunks", 10),
 
 
 rule split_reads:
@@ -21,20 +21,22 @@ rule split_reads:
         hrs=8,
     params:
         sdir=SDIR,
+        unzipped=scatter.split("temp/reads/{{sm}}/{scatteritem}.fq"),
     benchmark:
         "benchmarks/split_reads/{sm}.tbl"
-    threads: 4
+    threads: 8
     shell:
         """
         if [[ {input.reads} =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
             cat {input.reads} \
                 | seqtk seq -F '#' \
-                | rustybam fastq-split {output.reads}
+                | rustybam fastq-split {output.reads} #{params.unzipped} 
         elif [[ {input.reads} =~ \.(bam|cram|sam|sam.gz)$ ]]; then 
             samtools fasta -@ {threads} {input.reads} \
                 | seqtk seq -F '#' \
-                | rustybam fastq-split {output.reads}
+                | rustybam fastq-split {output.reads} #{params.unzipped}
         fi 
+        #pigz -p {threads} {params.unzipped}
         """
 
 
