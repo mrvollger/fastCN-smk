@@ -6,7 +6,7 @@ import sys
 
 
 scattergather:
-    split=8,
+    split=config.get("nchunks", 50),
 
 
 rule split_reads:
@@ -24,9 +24,15 @@ rule split_reads:
     threads: 1
     shell:
         """
-        cat {input.reads} \
-            | seqtk seq -F '#' \
-            | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
+        if [[ {input.reads} =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
+            cat {input.reads} \
+                | seqtk seq -F '#' \
+                | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
+        elif [[ {input.reads} =~ \.(bam|cram|sam|sam.gz)$ ]]; then 
+            samtools fasta {input.reads} \
+                | seqtk seq -F '#' \
+                | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
+        fi 
         """
 
 
