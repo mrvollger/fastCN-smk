@@ -21,6 +21,8 @@ rule split_reads:
         hrs=8,
     params:
         sdir=SDIR,
+    benchmark:
+        "benchmarks/split_reads/{sample}.tbl"
     threads: 1
     shell:
         """
@@ -65,6 +67,8 @@ rule mrsfast_alignment:
     resources:
         mem=4,
         hrs=24,
+    benchmark:
+        "benchmarks/mrsfasta/{sample}/{sm}/{scatteritem}.tbl"
     threads: 4
     shell:
         """
@@ -105,6 +109,8 @@ rule merged_mrsfast_bam:
     resources:
         mem=8,
         hrs=24,
+    benchmark:
+        "benchmarks/merge_mrsfast_bam/{sample}/{sm}.tbl"
     threads: 4
     priority: 50
     shell:
