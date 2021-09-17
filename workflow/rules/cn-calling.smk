@@ -8,6 +8,8 @@ rule GC_correct:
         binary=pipe("results/{sample}/binary/{sm}.bin"),
     conda:
         "../envs/env.yml"
+    log:
+        "logs/{sample}/binary/{sm}.log",
     resources:
         mem=8,
         hrs=24,
@@ -32,6 +34,8 @@ rule gzip_bin:
         mem=8,
         hrs=24,
     threads: 4
+    log:
+        "logs/{sample}/binary/{sm}.gz.log",
     shell:
         """
         pigz -p {threads} -c {input.binary} > {output.zipped}
@@ -47,6 +51,8 @@ rule convert_windows:
         windows="results/{sample}/windows/{sm}.depth.bed",
     conda:
         "../envs/env.yml"
+    log:
+        "logs/{sample}/windows/{sm}.log",
     resources:
         mem=16,
         hrs=24,
@@ -72,6 +78,8 @@ rule copy_number_call:
         ),
     output:
         cn_bed="results/{sample}/windows/{sm}.depth.bed.CN.bed",
+    log:
+        "logs/{sample}/windows/{sm}.cn.log",
     conda:
         "../envs/env.yml"
     resources:
@@ -89,6 +97,8 @@ rule bed_to_bed9:
         cn_bed=rules.copy_number_call.output.cn_bed,
     output:
         bed9=temp("results/{sample}/tracks/bed9/{sm}.bed9"),
+    log:
+        "logs/{sample}/windows/{sm}.bed9.log",
     conda:
         "../envs/env.yml"
     resources:

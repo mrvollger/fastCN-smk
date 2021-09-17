@@ -22,6 +22,8 @@ rule split_reads:
     params:
         sdir=SDIR,
         unzipped=scatter.split("temp/reads/{{sm}}/{scatteritem}.fq"),
+    log:
+        "logs/split_reads/{sm}.log",
     benchmark:
         "benchmarks/split_reads/{sm}.tbl"
     threads: 8
@@ -51,6 +53,8 @@ rule mrsfast_index:
         index=config.get("masked_ref", rules.masked_reference.output.fasta) + ".index",
     conda:
         "../envs/env.yml"
+    log:
+        "logs/mrsfast/index.{sample}.log",
     resources:
         mem=8,
         hrs=24,
@@ -73,6 +77,8 @@ rule mrsfast_alignment:
     resources:
         mem=4,
         hrs=24,
+    log:
+        "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
     benchmark:
         "benchmarks/mrsfasta/{sample}/{sm}/{scatteritem}.tbl"
     threads: 4
@@ -93,6 +99,8 @@ rule mrsfast_sort:
         bam=temp("temp/mrsfast/{sample}/{sm}/{scatteritem}.bam"),
     conda:
         "../envs/env.yml"
+    log:
+        "logs/mrsfast/{sample}/{sm}/{scatteritem}_sort.log",
     resources:
         mem=4,
         hrs=24,
@@ -117,6 +125,8 @@ rule merged_mrsfast_bam:
         hrs=24,
     benchmark:
         "benchmarks/merge_mrsfast_bam/{sample}/{sm}.tbl"
+    log:
+        "logs/mrsfast/{sample}/{sm}.merged.log",
     threads: 4
     priority: 50
     shell:

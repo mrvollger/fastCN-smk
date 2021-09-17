@@ -27,6 +27,8 @@ rule mask_file:
         fai=f'{config["fasta"]}.fai',
     output:
         bed="results/{sample}/{sample}.mask.bed",
+    log:
+        "logs/{sample}/{sample}.mask.log",
     conda:
         "../envs/env.yml"
     shell:
@@ -49,6 +51,8 @@ rule exclude_file:
         bed="results/{sample}/{sample}.exclude.bed",
     conda:
         "../envs/env.yml"
+    log:
+        "logs/{sample}/{sample}.exclude.log",
     params:
         window=400,
     shell:
@@ -135,6 +139,8 @@ rule autosome_control_windows:
         bed="results/{sample}/{sample}_auto_control.bed",
     conda:
         "../envs/env.yml"
+    log:
+        "logs/{sample}/{sample}.auto_control.log",
     resources:
         mem=8,
         hrs=24,
@@ -161,6 +167,8 @@ rule chrX_control_windows:
     resources:
         mem=8,
         hrs=24,
+    log:
+        "logs/{sample}/{sample}.chr_control.log",
     conda:
         "../envs/env.yml"
     threads: 1
