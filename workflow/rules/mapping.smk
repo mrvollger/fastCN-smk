@@ -29,13 +29,17 @@ rule split_reads:
         if [[ {input.reads} =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
             cat {input.reads} \
                 | seqtk seq -F '#' \
-                | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
+                | rustybam fastq-split {output.reads}
         elif [[ {input.reads} =~ \.(bam|cram|sam|sam.gz)$ ]]; then 
             samtools fasta -@ {threads} {input.reads} \
                 | seqtk seq -F '#' \
-                | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
+                | rustybam fastq-split {output.reads}
         fi 
         """
+
+
+# | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
+# | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
 
 
 rule mrsfast_index:
