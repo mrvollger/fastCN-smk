@@ -2,5 +2,4 @@ reference: "test-reference"
 fasta: .test/test.fasta
 sd: .test/test.sds.bed
 nchunks: 4
-reads:
-  fake_sm: .test/test.fq.gz
+manifest: .test/manifest.tbl 
