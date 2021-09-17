@@ -1,1 +1,9 @@
-sample: "a"
+reference: "t2t-chm13-v1.1"
+fasta: .test/test.fasta
+sd: .test/test.sds.bed
+nchunks: 50
+manifest: config/manifest.tbl
+RepeatMasker: .test/test.rmsk.bed
+trf: .test/test.trf.bed
+# gaps:
+# windowmasker:

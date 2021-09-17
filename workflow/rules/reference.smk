@@ -21,9 +21,9 @@ shell.prefix(f"export PATH=$PWD/fastCN:$PATH; set -eo pipefail;")
 
 rule mask_file:
     input:
-        rm=rules.Rhodonite_RepeatMasker.output.bed,
-        trf=rules.Rhodonite_trf.output.bed,
-        gaps=rules.Rhodonite_gaps.output.bed,
+        rm=config.get("RepeatMasker", rules.Rhodonite_RepeatMasker.output.bed),
+        trf=config.get("trf", rules.Rhodonite_trf.output.bed),
+        gaps=config.get("gaps", rules.Rhodonite_gaps.output.bed),
         fai=f'{config["fasta"]}.fai',
     output:
         bed="results/{sample}/{sample}.mask.bed",
@@ -43,7 +43,7 @@ rule mask_file:
 rule exclude_file:
     input:
         sd=config["sd"],
-        wm=rules.Rhodonite_windowmasker.output.bed,
+        wm=config.get("windowmasker", rules.Rhodonite_windowmasker.output.bed),
         fai=f'{config["fasta"]}.fai',
     output:
         bed="results/{sample}/{sample}.exclude.bed",
