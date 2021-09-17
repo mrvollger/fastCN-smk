@@ -31,6 +31,7 @@ wildcard_constraints:
 include: "rules/reference.smk"
 include: "rules/mapping.smk"
 include: "rules/cn-calling.smk"
+include: "rules/trackhub.smk"
 
 
 rule all:
