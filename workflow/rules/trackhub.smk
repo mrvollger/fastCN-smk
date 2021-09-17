@@ -1,6 +1,3 @@
-
-
-
 rule make_bb:
     input:
         bed=rules.bed_to_bed9.output.bed9,
