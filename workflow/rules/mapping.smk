@@ -17,7 +17,7 @@ rule split_reads:
     conda:
         "../envs/env.yml"
     resources:
-        mem=4,
+        mem=1,
         hrs=8,
     params:
         sdir=SDIR,
@@ -27,6 +27,7 @@ rule split_reads:
     benchmark:
         "benchmarks/split_reads/{sm}.tbl"
     threads: 8
+    priority: 10
     shell:
         """
         if [[ {input.reads} =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
@@ -39,11 +40,6 @@ rule split_reads:
                 | rustybam fastq-split {output.reads} 
         fi 
         """
-
-
-# pigz -p {threads} {params.unzipped}
-# | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
-# | {params.sdir}/scripts/split_fastx.py --outputs {output.reads}
 
 
 rule mrsfast_index:
@@ -76,17 +72,19 @@ rule mrsfast_alignment:
         "../envs/env.yml"
     resources:
         mem=4,
+        total_mem=16,  # mem * threads
         hrs=24,
     log:
         "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
     benchmark:
         "benchmarks/mrsfast/{sample}/{sm}/{scatteritem}.tbl"
     threads: 4
+    priority: 20
     shell:
         """
         extract-from-fastq36.py --in {input.reads} \
             | mrsfast --search {input.ref} --seq /dev/stdin \
-                --disable-nohits --mem {resources.mem} --threads {threads} \
+                --disable-nohits --mem {resources.total_mem} --threads {threads} \
                 -e 2 --outcomp \
                 -o $(dirname {output.sam})/{wildcards.scatteritem} \
             > {log} 2>&1
@@ -106,6 +104,7 @@ rule mrsfast_sort:
         mem=4,
         hrs=24,
     threads: 4
+    priority: 30
     shell:
         """
         zcat {input.sam} \
@@ -122,14 +121,14 @@ rule merged_mrsfast_bam:
     conda:
         "../envs/env.yml"
     resources:
-        mem=8,
+        mem=6,
         hrs=24,
     benchmark:
         "benchmarks/merge_mrsfast_bam/{sample}/{sm}.tbl"
     log:
         "logs/mrsfast/{sample}/{sm}.merged.log",
-    threads: 4
-    priority: 50
+    threads: 8
+    priority: 40
     shell:
         """
         samtools merge -@ {threads} - {input.bams} -u \
