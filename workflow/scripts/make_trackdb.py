@@ -89,7 +89,7 @@ color_hash = {
 
 def html_table(color_dict, rgb=True):
     print("<table>")
-    for key, value in color_dict.iter():
+    for key, value in color_dict.items():
         if rgb:
             second = f'<div style="color:rgb({value})">&#9632;</div>'
         else:
