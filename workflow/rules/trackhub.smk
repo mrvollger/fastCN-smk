@@ -34,6 +34,9 @@ rule make_trackdb:
     conda:
         "../envs/env.yml"
     threads: 1
+    resources:
+        mem=2,
+        hrs=24,
     log:
         "logs/{sample}/tracks/trackHub.log",
     params:

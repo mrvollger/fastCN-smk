@@ -31,6 +31,10 @@ rule mask_file:
         "logs/{sample}/{sample}.mask.log",
     conda:
         "../envs/env.yml"
+    resources:
+        mem=6,
+        hrs=24,
+    threads: 1
     shell:
         """
         zcat -f -- {input.rm} {input.trf} {input.gaps} \
@@ -55,6 +59,9 @@ rule exclude_file:
         "logs/{sample}/{sample}.exclude.log",
     params:
         window=400,
+    resources:
+        mem=6,
+        hrs=24,
     shell:
         """
         cat \
@@ -81,6 +88,9 @@ rule fastcn_GC_bin:
         "../envs/env.yml"
     params:
         window=400,
+    resources:
+        mem=6,
+        hrs=24,
     shell:
         """
         GC_control_gen \
@@ -105,6 +115,10 @@ rule masked_reference:
         "../envs/env.yml"
     log:
         "logs/{sample}/mask_reference.log",
+    resources:
+        mem=6,
+        hrs=24,
+    threads: 1
     shell:
         """
         seqtk seq -M {input.mask} -n N \
@@ -126,6 +140,9 @@ rule make_windows:
         "logs/{sample}/make_windows.log",
     params:
         window=config.get("window", 1000),
+    resources:
+        mem=6,
+        hrs=24,
     script:
         "../scripts/windows.py"
 
