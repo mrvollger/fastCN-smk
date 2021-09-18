@@ -80,7 +80,7 @@ rule mrsfast_alignment:
     log:
         "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
     benchmark:
-        "benchmarks/mrsfasta/{sample}/{sm}/{scatteritem}.tbl"
+        "benchmarks/mrsfast/{sample}/{sm}/{scatteritem}.tbl"
     threads: 4
     shell:
         """
