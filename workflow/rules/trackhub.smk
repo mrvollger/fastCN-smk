@@ -37,6 +37,6 @@ rule make_trackdb:
     log:
         "logs/{sample}/tracks/trackHub.log",
     params:
-        samples=config["reads"].keys(),
+        samples=list(config["reads"].keys()),
     script:
         "../scripts/make_trackdb.py"
