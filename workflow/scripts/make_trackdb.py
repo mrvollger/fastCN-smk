@@ -101,7 +101,7 @@ def html_table(color_dict, h1, h2, rgb=True):
             second = value
         rtn += "<tr>"
         rtn += f'<td style="text-align: center; vertical-align: middle;">{key}</td>'
-        rtn += f'<td bgcolor=rgb({value}) style="text-align: center; vertical-align: middle;">{second}</td>'
+        rtn += f'<td bgcolor="rgb({value})" style="text-align: center; vertical-align: middle;">{second}</td>'
         rtn += "</tr>"
     rtn += "</table>"
     return rtn
