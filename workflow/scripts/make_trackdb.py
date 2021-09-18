@@ -88,16 +88,17 @@ color_hash = {
 
 
 def html_table(color_dict, rgb=True):
-    print("<table>")
+    rtn = "<table>"
     for key, value in color_dict.items():
         if rgb:
             second = f'<div style="color:rgb({value})">&#9632;</div>'
         else:
             second = value
-        print("  <tr><td>")
-        print("    </td><td>".join([str(key), second]))
-        print("  </td></tr>")
-    print("</table>")
+        rtn += "  <tr><td>"
+        rtn += "    </td><td>".join([str(key), second])
+        rtn += "  </td></tr>"
+    rtn += "</table>"
+    return rtn
 
 
 with open(snakemake.output.track, "w") as out:
