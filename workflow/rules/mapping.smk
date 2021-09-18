@@ -101,10 +101,12 @@ rule mrsfast_sort:
         "../envs/env.yml"
     log:
         "logs/{sample}/mrsfast/sort/{sm}/{scatteritem}_sort.log",
+    benchmark:
+        "benchmarks/{sample}/sort_bam/{sm}/{scatteritem}.tbl"
     resources:
         mem=4,
         hrs=24,
-    threads: 4
+    threads: 2
     priority: 30
     shell:
         """
