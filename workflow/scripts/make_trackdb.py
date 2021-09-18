@@ -92,7 +92,7 @@ def html_table(color_dict, h1, h2, rgb=True):
     rtn += f"<tr><th>{h1}</th><th>{h2}</th></tr>"
     for key, value in color_dict.items():
         if rgb:
-            second = f'<div style="color:rgb({value})">&#9726;</div>'
+            second = f'<div style="font-size:100px; color:rgb({value})">&#9623;</div>'
         else:
             second = value
         rtn += "  <tr><td>"
