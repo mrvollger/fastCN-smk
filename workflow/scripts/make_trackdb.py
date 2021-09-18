@@ -98,8 +98,10 @@ def html_table(color_dict, h1, h2, rgb=True):
             second = f'<div style="font-size:50px; color:rgb({value})">&#9623;</div>'
         else:
             second = value
-        rtn += "  <tr><td>"
-        rtn += "    </td><td>".join([str(key), second])
+        rtn += '  <tr><td style="text-align: center; vertical-align: middle;">'
+        rtn += '    </td><td style="text-align: center; vertical-align: middle;">'.join(
+            [str(key), second]
+        )
         rtn += "  </td></tr>"
     rtn += "</table>"
     return rtn
