@@ -2,7 +2,7 @@ reference: "t2t-chm13-v1.1"
 fasta: /net/eichler/vol26/projects/chm13_t2t/nobackups/assemblies/chm13_v1.1_plus38Y.fasta
 sd: /net/eichler/vol26/projects/chm13_t2t/nobackups/fastcn_mitchell/fastCN-smk/config/chm13v1.1_SDs_plus_lowid_SDs.bed
 nchunks: 100
-manifest: config/manifest.tbl
+manifest: config/manifest_20.tbl
 
 #
 # the following files will be made if they are not provided

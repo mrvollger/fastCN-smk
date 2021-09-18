@@ -8,7 +8,7 @@ min_version("6.6")
 
 SDIR = os.path.realpath(os.path.dirname(srcdir("Snakefile")))
 shell.prefix(
-    f"export PATH=$PWD/fastCN:$PATH; export PATH=$PWD/bin:$PATH; set -eo pipefail;"
+    f"export PATH=$PWD/fastCN:$PATH; module load gcc/10.2.0 libevent/2.1.8 tmux/2.8 samtools/1.13; set -eo pipefail;"
 )
 
 
