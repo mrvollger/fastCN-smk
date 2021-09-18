@@ -96,13 +96,13 @@ def html_table(color_dict, h1, h2, rgb=True):
     for key, value in color_dict.items():
         if rgb:
             second = f'<div style="font-size:15px; color:rgb({value})">&#9632;</div>'
+            # bgcolor= td
         else:
             second = value
-        rtn += '  <tr><td style="text-align: center; vertical-align: middle;">'
-        rtn += '    </td><td style="text-align: center; vertical-align: middle;">'.join(
-            [str(key), second]
-        )
-        rtn += "  </td></tr>"
+        rtn += "<tr>"
+        rtn += f'<td style="text-align: center; vertical-align: middle;">{key}</td>'
+        rtn += f'<td bgcolor=rgb({value}) style="text-align: center; vertical-align: middle;">{second}</td>'
+        rtn += "</tr>"
     rtn += "</table>"
     return rtn
 
