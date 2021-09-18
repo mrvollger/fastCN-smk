@@ -53,6 +53,10 @@ Pendleton AL, Shen F, Taravella AM, Emery S, Veeramah KR, Boyko AR, Kidd JM. Com
 Sudmant PH, Mallick S, Nelson BJ, Hormozdiari F, Krumm N, Huddleston J, et al. Global diversity, population stratification, and selection of human copy-number variation. Science. 2015
 
 Sudmant PH, Kitzman JO, Antonacci F, Alkan C, Malig M, Tsalenko A, et al. Diversity of human copy number. Science. 2010
+
+<h3>Sample table</h3>
+{sample_table}
+
 <br><br>
 </html>
 """
@@ -83,12 +87,15 @@ color_hash = {
 }
 
 
-def html_table(color_dict):
+def html_table(color_dict, rgb=True):
     print("<table>")
-    for key, value in color_dict.iteritems():
-        color = f'<div style="color:rgb({value})">&#9632;</div>'
+    for key, value in color_dict.iter():
+        if rgb:
+            second = f'<div style="color:rgb({value})">&#9632;</div>'
+        else:
+            second = value
         print("  <tr><td>")
-        print("    </td><td>".join([key, color]))
+        print("    </td><td>".join([key, second]))
         print("  </td></tr>")
     print("</table>")
 
@@ -101,4 +108,12 @@ open(snakemake.output.hub, "w").write(hub)
 open(snakemake.output.genomes, "w").write(
     genomes.format(sample=snakemake.wildcards.sample)
 )
-open(snakemake.output.html, "w").write(html.format(cn_key=html_table(color_hash)))
+
+sample_table = dict(zip(snakemake.params.samples, snakemake.params.reads))
+
+open(snakemake.output.html, "w").write(
+    html.format(
+        cn_key=html_table(color_hash),
+        sample_table=html_table(sample_table, rgb=False),
+    )
+)

@@ -66,7 +66,7 @@ rule exclude_file:
         """
         cat \
             <(bedtools slop -b 36 -g {input.fai} -i {input.wm}) \
-            <(bedtools slop -b {params.window} -g {input.fai} -i {input.sd}) \
+            <(bedtools slop -b 10000 -g {input.fai} -i {input.sd}) \
             | cut -f 1-3 \
             | bedtools sort -i - -g {input.fai} \
             | bedtools merge -i - \
