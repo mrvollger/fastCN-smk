@@ -7,7 +7,9 @@ import pandas as pd
 min_version("6.6")
 
 SDIR = os.path.realpath(os.path.dirname(srcdir("Snakefile")))
-shell.prefix(f"export PATH=$PWD/fastCN:$PATH; set -eo pipefail;")
+shell.prefix(
+    f"export PATH=$PWD/fastCN:$PATH; export PATH=$PWD/bin:$PATH; set -eo pipefail;"
+)
 
 
 samples_df = pd.read_csv(config["manifest"], sep="\t")
