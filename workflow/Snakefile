@@ -42,3 +42,6 @@ rule all:
             rules.make_trackdb.output,
             sample=config["reference"],
         ),
+        expand(
+            rules.make_bb.output, sample=config["reference"], sm=config["reads"].keys()
+        ),

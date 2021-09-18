@@ -19,6 +19,7 @@ rule split_reads:
     resources:
         mem=1,
         hrs=8,
+        load=50,  # seeting a high load here so that only a few can run at once
     params:
         sdir=SDIR,
         unzipped=scatter.split("temp/reads/{{sm}}/{scatteritem}.fq"),
