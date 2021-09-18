@@ -1,5 +1,3 @@
-
-
 fastCN/GC_control_gen:
 	git clone https://github.com/KiddLab/fastCN.git \
 		&& cd fastCN \
@@ -7,6 +5,7 @@ fastCN/GC_control_gen:
 		&& g++ -o GC_control_gen GC_control_gen.cc \
 		&& g++ -o SAM_GC_correction SAM_GC_correction.cc \
 		&& cd .. \
+		&& ln -s fastCN bin \
 		&& cargo install rustybam --root .
 
 
