@@ -31,6 +31,7 @@ rule make_trackdb:
         track="results/{sample}/tracks/trackDb.{sample}.txt",
         hub="results/{sample}/tracks/hub.txt",
         genomes="results/{sample}/tracks/genomes.txt",
+        html="results/{sample}/tracks/wssd/description.html",
     conda:
         "../envs/env.yml"
     threads: 1
@@ -41,5 +42,6 @@ rule make_trackdb:
         "logs/{sample}/tracks/trackHub.log",
     params:
         samples=list(config["reads"].keys()),
+        reads=list(config["reads"].values()),
     script:
         "../scripts/make_trackdb.py"

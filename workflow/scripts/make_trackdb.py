@@ -8,6 +8,7 @@ priority 30
 type bigBed 9 +
 itemRgb on
 maxItems 100000
+html wssd/description.html
 """
 
 hub = """
@@ -33,6 +34,65 @@ track = """
     visibility dense
 """
 
+html = """
+<html>
+<h3>Description</h3>
+This track represents copy number estimates. Copy number is estimated over 500 bp windows of uniqely mappable sequence. Sequences are colored from cold to hot (0 - 10+) and exact copy can be found by clicking on the region of interest. \n\n
+
+<h3>Copy Number Key</h3>
+{cn_key}
+
+<h3>Credits</h3>
+Please feel free to contact <a href=mailto:wharvey@uw.edu >William Harvey</a> or <a href=mailto:mvollger@uw.edu>Mitchell Vollger</a> with any questions and/or concerns regarding this or other tracks.
+
+<h3>References</h3>
+Bailey JA, Gu Z, Clark RA, Reinert K, Samonte RV, Schwartz S, Adams MD, Myers EW, Li PW, Eichler EE. Recent segmental duplications in the human genome. Science 2002
+
+Pendleton AL, Shen F, Taravella AM, Emery S, Veeramah KR, Boyko AR, Kidd JM. Comparison of village dog and wolf genomes highlights the role of the neural crest in dog domestication. BMC Biol. 2018 
+
+Sudmant PH, Mallick S, Nelson BJ, Hormozdiari F, Krumm N, Huddleston J, et al. Global diversity, population stratification, and selection of human copy-number variation. Science. 2015
+
+Sudmant PH, Kitzman JO, Antonacci F, Alkan C, Malig M, Tsalenko A, et al. Diversity of human copy number. Science. 2010
+<br><br>
+</html>
+"""
+
+color_hash = {
+    0: "229,229,229",
+    1: "196,196,196",
+    2: "0,0,0",
+    3: "0,0,205",
+    4: "65,105,225",
+    5: "100,149,237",
+    6: "180,238,180",
+    7: "255,255,0",
+    8: "255,165,0",
+    9: "139,26,26",
+    10: "255,0,0",
+    20: "0,255,255",
+    30: "32,178,170",
+    40: "0,255,0",
+    50: "34,139,34",
+    60: "0,100,0",
+    70: "75,0,130",
+    80: "139,0,139",
+    90: "148,0,211",
+    100: "199,21,133",
+    110: "255,105,180",
+    120: "255,192,203",
+}
+
+
+def html_table(color_dict):
+    print("<table>")
+    for key, value in color_dict.iteritems():
+        color = f'<div style="color:rgb({value})">&#9632;</div>'
+        print("  <tr><td>")
+        print("    </td><td>".join([key, color]))
+        print("  </td></tr>")
+    print("</table>")
+
+
 with open(snakemake.output.track, "w") as out:
     out.write(track_db_header)
     [out.write(track.format(sm=sm)) for sm in snakemake.params.samples]
@@ -41,3 +101,4 @@ open(snakemake.output.hub, "w").write(hub)
 open(snakemake.output.genomes, "w").write(
     genomes.format(sample=snakemake.wildcards.sample)
 )
+open(snakemake.output.html, "w").write(html.format(cn_key=html_table(color_hash)))
