@@ -3,11 +3,14 @@ fasta: /net/eichler/vol26/projects/chm13_t2t/nobackups/assemblies/chm13_v1.1_plu
 sd: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/SEDEF/chm13_v1.1_plus38Y.SDs.bed
 nchunks: 100
 manifest: config/manifest.tbl
-# the folowing will be made if they are not provided
+
+#
+# the following files will be made if they are not provided
+#
 RepeatMasker: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/chm13_v1.1_plus38Y_repeatmasker.out.bed
 trf: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/chm13_v1.1_plus38Y_trf.bed
 gaps: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/chm13_v1.1_plus38Y.Ns.bed
-# windowmasker: bed file from windowmasker output
+windowmasker: /net/eichler/vol26/projects/chm13_t2t/nobackups/fastcn_mitchell/fastCN-smk/results/t2t-chm13-v1.1/windowmasker/dust.bed.gz
 # masked_ref: a hard masked reference fasta, but not really necessary if you provide the beds
 # gc_control: the gc control .bin file from fastCN if already made
 
