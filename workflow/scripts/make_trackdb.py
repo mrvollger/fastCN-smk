@@ -37,23 +37,23 @@ track = """
 html = """
 <html>
 <h3>Description</h3>
-This track represents copy number estimates. Copy number is estimated over 500 bp windows of uniqely mappable sequence. Sequences are colored from cold to hot (0 - 10+) and exact copy can be found by clicking on the region of interest. \n\n
+This track represents copy number estimates. Copy number is estimated over 500 bp windows of uniqely mappable sequence. Sequences are colored from cold to hot (0 - 120+) and exact copy can be found by clicking on the region of interest. \n\n
 
 <h3>Copy Number Key</h3>
 {cn_key}
 
 <h3>Credits</h3>
-Please feel free to contact <a href=mailto:wharvey@uw.edu >William Harvey</a> or <a href=mailto:mvollger@uw.edu>Mitchell Vollger</a> with any questions and/or concerns regarding this or other tracks.
+Please feel free to contact <a href=mailto:wharvey@uw.edu >William Harvey</a> or <a href=mailto:mvollger@uw.edu>Mitchell Vollger</a> with any questions and/or concerns regarding this track.
 
 <h3>References</h3>
 Bailey JA, Gu Z, Clark RA, Reinert K, Samonte RV, Schwartz S, Adams MD, Myers EW, Li PW, Eichler EE. Recent segmental duplications in the human genome. Science 2002
-<br>
+<br><br>
 
 Pendleton AL, Shen F, Taravella AM, Emery S, Veeramah KR, Boyko AR, Kidd JM. Comparison of village dog and wolf genomes highlights the role of the neural crest in dog domestication. BMC Biol. 2018 
-<br>
+<br><br>
 
 Sudmant PH, Mallick S, Nelson BJ, Hormozdiari F, Krumm N, Huddleston J, et al. Global diversity, population stratification, and selection of human copy-number variation. Science. 2015
-<br>
+<br><br>
 
 Sudmant PH, Kitzman JO, Antonacci F, Alkan C, Malig M, Tsalenko A, et al. Diversity of human copy number. Science. 2010
 
