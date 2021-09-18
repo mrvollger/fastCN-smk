@@ -96,7 +96,7 @@ rule bed_to_bed9:
     input:
         cn_bed=rules.copy_number_call.output.cn_bed,
     output:
-        bed9=temp("results/{sample}/tracks/bed9/{sm}.bed9"),
+        bed9="results/{sample}/tracks/bed9/{sm}.bed.gz",
     log:
         "logs/{sample}/windows/{sm}.bed9.log",
     conda:

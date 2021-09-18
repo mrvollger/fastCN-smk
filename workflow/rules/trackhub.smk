@@ -3,6 +3,7 @@ rule make_bb:
         bed=rules.bed_to_bed9.output.bed9,
         fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
     output:
+        bed="temp/{sample}/tracks/wssd/{sm}_wssd.bed",
         bigbed="results/{sample}/tracks/wssd/{sm}_wssd.bb",
     conda:
         "../envs/env.yml"
@@ -16,9 +17,10 @@ rule make_bb:
         as_file=f"{SDIR}/utils/track.as",
     shell:
         """
+        zcat {input.bed} > {output.bed}
         bedToBigBed -tab -type=bed9+1 \
             -as={params.as_file} \
-            {input.bed} {input.fai} {output.bigbed}
+            {output.bed} {input.fai} {output.bigbed}
         """
 
 
