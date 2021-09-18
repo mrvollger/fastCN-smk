@@ -95,7 +95,7 @@ def html_table(color_dict, rgb=True):
         else:
             second = value
         print("  <tr><td>")
-        print("    </td><td>".join([key, second]))
+        print("    </td><td>".join([str(key), second]))
         print("  </td></tr>")
     print("</table>")
 
