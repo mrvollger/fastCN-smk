@@ -87,8 +87,9 @@ color_hash = {
 }
 
 
-def html_table(color_dict, rgb=True):
+def html_table(color_dict, h1, h2, rgb=True):
     rtn = '<table border="1">'
+    rtn += f"<tr><th>{h2}</th><th>{h1}</th></tr>"
     for key, value in color_dict.items():
         if rgb:
             second = f'<div style="color:rgb({value})">&#9632;</div>'
@@ -114,7 +115,7 @@ sample_table = dict(zip(snakemake.params.samples, snakemake.params.reads))
 
 open(snakemake.output.html, "w").write(
     html.format(
-        cn_key=html_table(color_hash),
-        sample_table=html_table(sample_table, rgb=False),
+        cn_key=html_table(color_hash, h1="Copy number", h2="Color"),
+        sample_table=html_table(sample_table, h1="Sample", h2="Read file", rgb=False),
     )
 )
