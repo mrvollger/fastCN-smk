@@ -29,7 +29,8 @@ color_hash = {
 df = pd.read_csv(
     snakemake.input.cn_bed, sep="\t", header=None, names=["chr", "pos", "end", "cn"]
 )
-df["cn_round"] = df["cn"].round(0)  # df.apply(lambda row: int(row["cn"]), axis=1)
+df["cn_round"] = df["cn"].round(0).astype("int32")
+# df.apply(lambda row: int(row["cn"]), axis=1)
 df["mapq"] = "0"
 df["strand"] = "+"
 df["big_start"] = "0"
