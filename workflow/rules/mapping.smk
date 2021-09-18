@@ -77,7 +77,7 @@ rule mrsfast_alignment:
     log:
         "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
     benchmark:
-        "benchmarks/mrsfast/{sample}/{sm}/{scatteritem}.tbl"
+        "benchmarks/{sample}/mrsfast/{sm}/{scatteritem}.tbl"
     threads: 4
     priority: 20
     shell:
@@ -99,7 +99,7 @@ rule mrsfast_sort:
     conda:
         "../envs/env.yml"
     log:
-        "logs/mrsfast/{sample}/{sm}/{scatteritem}_sort.log",
+        "logs/{sample}/mrsfast/sort/{sm}/{scatteritem}_sort.log",
     resources:
         mem=4,
         hrs=24,
@@ -124,7 +124,7 @@ rule merged_mrsfast_bam:
         mem=6,
         hrs=24,
     benchmark:
-        "benchmarks/merge_mrsfast_bam/{sample}/{sm}.tbl"
+        "benchmarks/{sample}/merge_mrsfast/{sm}.tbl"
     log:
         "logs/mrsfast/{sample}/{sm}.merged.log",
     threads: 8
