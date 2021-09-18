@@ -39,4 +39,4 @@ rule make_trackdb:
     params:
         samples=config["reads"].keys(),
     script:
-        "scripts/make_trackdb.py"
+        "../scripts/make_trackdb.py"
