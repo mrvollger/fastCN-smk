@@ -17,7 +17,7 @@ rule split_reads:
     conda:
         "../envs/env.yml"
     resources:
-        mem=1,
+        mem=2,
         hrs=8,
         load=50,  # seeting a high load here so that only a few can run at once
     params:
@@ -113,7 +113,9 @@ rule mrsfast_sort:
         """
         zcat {input.sam} \
             | samtools view -b - \
-            | samtools sort -@ {threads} -o {output.bam} -
+            | samtools sort -@ {threads} \
+             -T {resources.tmpdir} -m 2G \
+             -o {output.bam} -
         """
 
 
