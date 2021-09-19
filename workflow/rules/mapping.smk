@@ -75,6 +75,7 @@ rule mrsfast_alignment:
         mem=4,
         total_mem=16,  # mem * threads
         hrs=24,
+        load=1,
     log:
         "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
     benchmark:

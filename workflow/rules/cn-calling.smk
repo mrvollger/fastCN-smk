@@ -48,7 +48,7 @@ rule convert_windows:
         binary=rules.gzip_bin.output.zipped,
         ref_windows=config.get("masked_ref", rules.make_windows.output.bed),
     output:
-        windows="results/{sample}/windows/{sm}.depth.bed",
+        windows=temp("temp/{sample}/windows/{sm}.depth.bed"),
     conda:
         "../envs/env.yml"
     log:
@@ -77,7 +77,7 @@ rule copy_number_call:
             "chrX_control", rules.chrX_control_windows.output.bed
         ),
     output:
-        cn_bed="results/{sample}/windows/{sm}.depth.bed.CN.bed",
+        cn_bed=temp("temp/{sample}/windows/{sm}.depth.bed.CN.bed"),
     log:
         "logs/{sample}/windows/{sm}.cn.log",
     conda:
