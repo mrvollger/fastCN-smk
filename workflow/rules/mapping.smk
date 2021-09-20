@@ -128,13 +128,13 @@ rule merged_mrsfast_bam:
     conda:
         "../envs/env.yml"
     resources:
-        mem=6,
+        mem=4,
         hrs=24,
     benchmark:
         "benchmarks/{sample}/merge_mrsfast/{sm}.tbl"
     log:
         "logs/mrsfast/{sample}/{sm}.merged.log",
-    threads: 8
+    threads: 4
     priority: 40
     shell:
         """
