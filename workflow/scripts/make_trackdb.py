@@ -37,7 +37,10 @@ track = """
 html = """
 <html>
 <h3>Description</h3>
-This track represents copy number estimates. Copy number is estimated over 500 bp windows of uniqely mappable sequence. Sequences are colored from cold to hot (0 - 120+) and exact copy can be found by clicking on the region of interest. \n\n
+This track represents copy number estimates. Copy number is estimated over 500 bp windows of uniquely mappable sequence. Sequences are colored from cold to hot (0 - 120+) and exact copy can be found by clicking on the region of interest. \n\n 
+
+<h3>Code Availability</h3>
+<a href="https://github.com/mrvollger/fastCN-smk">GitHub</a>
 
 <h3>Copy Number Key</h3>
 {cn_key}
