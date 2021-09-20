@@ -107,6 +107,7 @@ rule mrsfast_sort:
     resources:
         mem=4,
         hrs=24,
+        load=1,
     threads: 2
     priority: 30
     shell:
