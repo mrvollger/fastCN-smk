@@ -1,4 +1,3 @@
-LDFLAGS=""
 # change LDFLAGS to suit your needs, for example below is for the eichler lab
 # LDFLAGS=-Wl,-rpath=/net/gs/vol3/software/modules-sw/gcc/8.2.0/Linux/CentOS7/x86_64/lib64
 
