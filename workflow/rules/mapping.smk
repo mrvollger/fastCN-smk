@@ -62,14 +62,6 @@ rule mrsfast_index:
         """
 
 
-def get_mrsfast_mem(wildcards, attempt):
-    return 4 * attempt
-
-
-def get_total_mrsfast_mem(wildcards, threads, attempt):
-    return 4 * attempt * threads - 1
-
-
 rule mrsfast_alignment:
     input:
         reads="temp/reads/{sm}/{scatteritem}.fq.gz",
@@ -80,8 +72,8 @@ rule mrsfast_alignment:
     conda:
         "../envs/env.yml"
     resources:
-        mem=get_mrsfast_mem,
-        total_mem=get_total_mrsfast_mem,  # mem * threads
+        total_mem=lambda wildcards, attempt, threads: 4 * attempt * threads - 2,
+        mem=lambda wildcards, attempt, threads: 4 * attempt * threads,
         hrs=2,
         load=1,
     log:
