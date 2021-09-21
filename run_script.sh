@@ -14,4 +14,5 @@ snakemake \
     --resources load=1000 \
     --scheduler greedy \
     --latency-wait 60 \
+    --restart-times 3 \
     "$@"
