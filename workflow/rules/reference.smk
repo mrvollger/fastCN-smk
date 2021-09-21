@@ -167,7 +167,7 @@ rule autosome_control_windows:
         zcat -f -- {input.mask} {input.exclude} \
             | bedtools sort -i - \
             | bedtools merge -i - \
-            | bedtools subtract -N -f 0.5 -a {input.windows} -b - \
+            | bedtools subtract -N -f 0.75 -a {input.windows} -b - \
             | grep -v chrX \
             | grep -v chrY \
             > {output.bed}
@@ -194,7 +194,7 @@ rule chrX_control_windows:
         (zcat -f -- {input.mask} {input.exclude} \
             | bedtools sort -i - \
             | bedtools merge -i - \
-            | bedtools subtract -N -f 0.5 -a {input.windows} -b - \
+            | bedtools subtract -N -f 0.75 -a {input.windows} -b - \
             | grep -w chrX  || true ) \
             > {output.bed}
         """
