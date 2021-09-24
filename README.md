@@ -18,3 +18,7 @@ See `config/config.yaml` for an example layout, and `.test/config.yaml` for a mi
 ## Workflow layout
 
 ![Workflow](./docs/dag.png)
+
+## TODO
+
+- add raw read depth counts
