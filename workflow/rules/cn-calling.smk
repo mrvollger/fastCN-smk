@@ -46,7 +46,7 @@ rule convert_windows:
     input:
         fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
         binary=rules.gzip_bin.output.zipped,
-        ref_windows=config.get("masked_ref", rules.make_windows.output.bed),
+        ref_windows=config.get("reference_windows", rules.make_windows.output.bed),
     output:
         windows=temp("temp/{sample}/windows/{sm}.depth.bed"),
     conda:

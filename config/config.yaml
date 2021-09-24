@@ -13,4 +13,6 @@ gaps: /net/eichler/vol26/projects/chm13_t2t/nobackups/Assembly_analysis/Masked/c
 windowmasker: /net/eichler/vol26/projects/chm13_t2t/nobackups/fastcn_mitchell/fastCN-smk/results/t2t-chm13-v1.1/windowmasker/dust.bed.gz
 # masked_ref: a hard masked reference fasta, but not really necessary if you provide the beds
 # gc_control: the gc control .bin file from fastCN if already made
-
+# autosome_control:
+# chrX_control:
+# reference_windows:
