@@ -144,3 +144,22 @@ rule merged_mrsfast_bam:
             | pigz -p {threads} \
         > {output.merged}
         """
+
+
+rule compress_mrsfast_further:
+    input:
+        sam = rules.merged_mrsfast_bam.output.merged
+    output:
+        comp = "results/{sample}/mapping/{sm}_merged_comp.out.gz"
+    conda:
+        "../envs/env.yml"
+    resources:
+        mem=2,
+        hrs=24,
+        load=25
+    benchmark:
+        "benchmarks/{sample}/comp_mrsfast/{sm}.tbl"
+    log:
+        "logs/mrsfast/{sample}/{sm}.merged_comp.log",   
+    script:
+        "../scripts/compress_mrsfast.py"
