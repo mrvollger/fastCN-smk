@@ -23,7 +23,7 @@ jobs:
       - run: make
       #- name: build application
       - name: Test workflow
-        uses: snakemake/snakemake-github-action@v1.22.0
+        uses: snakemake/snakemake-github-action@v1
         with:
           directory: .
           snakefile: workflow/Snakefile
