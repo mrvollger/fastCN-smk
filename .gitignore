@@ -5,4 +5,7 @@ logs/**
 .snakemake/**
 **.code-workspace
 temp/**
-fastCN/**
+fastCN
+bin
+benchmarks/**
+.crates**
