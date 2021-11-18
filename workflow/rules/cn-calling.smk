@@ -1,7 +1,28 @@
 
+rule unpack_mrsfast:
+    input:
+        comp=rules.compress_mrsfast_further.output.comp,
+    output:
+        exp=pipe("results/{sample}/mapping/{sm}_merged_comp.out.gz")
+    conda:
+        "../envs/env.yml"
+    resources:
+        mem=2,
+        hrs=24,
+        load=1
+    threads: 1
+    benchmark:
+        "benchmarks/{sample}/exp_mrsfast/{sm}.tbl"
+    log:
+        "logs/mrsfast/{sample}/{sm}.merged_exp.log",   
+    script:
+        "../scripts/unpack_partial_sam.py"
+
+
+
 rule GC_correct:
     input:
-        merged=rules.merged_mrsfast_bam.output.merged,
+        exp=rules.unpack_mrsfast.output.exp,
         fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
         bin=config.get("gc_control", rules.fastcn_GC_bin.output.bin),
     output:
@@ -16,11 +37,11 @@ rule GC_correct:
     threads: 1
     shell:
         """
-        zcat {input.merged} \
-            | SAM_GC_correction \
-                {input.fai} {input.bin} /dev/stdin \
+        SAM_GC_correction \
+                {input.fai} {input.bin} {input.exp} \
                 $(dirname {output.binary})/{wildcards.sm}
         """
+
 
 
 rule gzip_bin:
