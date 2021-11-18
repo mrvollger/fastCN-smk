@@ -7,7 +7,7 @@ wildcard_constraints:
 
 module Rhodonite:
     snakefile:
-        "https://github.com/mrvollger/Rhodonite/raw/master/workflow/Snakefile"
+        "https://github.com/mrvollger/Rhodonite/blob/v0.4-alpha/workflow/Snakefile"
     config:
         mask_config
 
