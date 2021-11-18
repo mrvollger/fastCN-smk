@@ -3,21 +3,20 @@ rule unpack_mrsfast:
     input:
         comp=rules.compress_mrsfast_further.output.comp,
     output:
-        exp=pipe("results/{sample}/mapping/{sm}_merged_comp.out.gz")
+        exp=pipe("results/{sample}/mapping/{sm}_merged_comp.out.gz"),
     conda:
         "../envs/env.yml"
     resources:
         mem=2,
         hrs=24,
-        load=1
+        load=1,
     threads: 1
     benchmark:
         "benchmarks/{sample}/exp_mrsfast/{sm}.tbl"
     log:
-        "logs/mrsfast/{sample}/{sm}.merged_exp.log",   
+        "logs/mrsfast/{sample}/{sm}.merged_exp.log",
     script:
         "../scripts/unpack_partial_sam.py"
-
 
 
 rule GC_correct:
@@ -41,7 +40,6 @@ rule GC_correct:
                 {input.fai} {input.bin} {input.exp} \
                 $(dirname {output.binary})/{wildcards.sm}
         """
-
 
 
 rule gzip_bin:
