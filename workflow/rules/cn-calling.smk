@@ -3,7 +3,7 @@ rule unpack_mrsfast:
     input:
         comp=rules.compress_mrsfast_further.output.comp,
     output:
-        exp=pipe("results/{sample}/mapping/{sm}_merged_comp.out.gz"),
+        exp=pipe("results/{sample}/mapping/{sm}_merged_exp.out.gz"),
     conda:
         "../envs/env.yml"
     resources:
