@@ -38,10 +38,7 @@ include: "rules/trackhub.smk"
 
 rule all:
     input:
-        expand(
-            rules.make_trackdb.output,
-            sample=config["reference"],
-        ),
-        expand(
+        track_hub=expand(rules.make_trackdb.output, sample=config["reference"]),
+        bigbed=expand(
             rules.make_bb.output, sample=config["reference"], sm=config["reads"].keys()
         ),
