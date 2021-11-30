@@ -96,7 +96,7 @@ rule copy_number_call:
             "chrX_control", rules.chrX_control_windows.output.bed
         ),
     output:
-        cn_bed=temp("temp/{sample}/windows/{sm}.depth.bed.CN.bed"),
+        cn_bed=temp("temp/{sample}/windows/wssd/{sm}.depth.bed.CN.bed"),
     log:
         "logs/{sample}/windows/{sm}.cn.log",
     conda:
@@ -111,21 +111,6 @@ rule copy_number_call:
         """
 
 
-rule bed_to_bed9:
-    input:
-        cn_bed=rules.copy_number_call.output.cn_bed,
-    output:
-        bed9="results/{sample}/tracks/bed9/{sm}.bed.gz",
-    log:
-        "logs/{sample}/windows/{sm}.bed9.log",
-    conda:
-        "../envs/env.yml"
-    resources:
-        mem=4,
-        hrs=24,
-    threads: 1
-    script:
-        "../scripts/make_bed9.py"
 
 
 '''
@@ -150,3 +135,4 @@ rule wssd_binary:
         bedtools subtract -a {output.sat_bed} -b {input.gap_bed} | bedtools subtract -a - -b {input.cen_bed} > {output.wssd_bin}
         """
 '''
+

@@ -17,6 +17,7 @@ samples = samples_df["sample"].tolist()
 reads = samples_df["reads"].tolist()
 config["reads"] = dict(zip(samples, reads))
 
+
 fai_df = pd.read_csv(
     f'{config["fasta"]}.fai',
     sep="\t",
@@ -30,15 +31,22 @@ wildcard_constraints:
     sm="|".join(config["reads"].keys()),
 
 
+scattergather:
+    split=config.get("nchunks", 10),
+
 include: "rules/reference.smk"
 include: "rules/mapping.smk"
 include: "rules/cn-calling.smk"
+include: "rules/quickmer.smk"
 include: "rules/trackhub.smk"
 
 
 rule all:
     input:
-        track_hub=expand(rules.make_trackdb.output, sample=config["reference"]),
-        bigbed=expand(
-            rules.make_bb.output, sample=config["reference"], sm=config["reads"].keys()
+        expand(
+            rules.make_trackdb.output,
+            sample=config["reference"],type=config.get("type", ["sunk", "wssd"])
+        ),
+        expand(
+            rules.make_bb.output, sample=config["reference"], sm=config["reads"].keys(), type=config.get("type", ["sunk", "wssd"])
         ),

@@ -7,7 +7,7 @@ wildcard_constraints:
 
 module Rhodonite:
     snakefile:
-        "https://raw.githubusercontent.com/mrvollger/Rhodonite/v0.6-alpha/workflow/Snakefile"
+        "https://github.com/mrvollger/Rhodonite/raw/master/workflow/Snakefile"
     config:
         mask_config
 
@@ -73,6 +73,26 @@ rule exclude_file:
         > {output.bed}
         """
 
+rule include_file:
+    input:
+        exclude=rules.exclude_file.output.bed,
+        fasta=config["fasta"]
+    output:
+        include="results/{sample}/{sample}.include.bed",
+    conda:
+        "../envs/env.yml"
+    log:
+         "logs/{sample}/{sample}.include.log",
+    resources:
+        mem=6,
+        hrs=24,
+    shell:
+        """
+        bedtools complement \
+            {input.exclude} \
+            {input.fasta} \
+            > {output.include}
+        """
 
 rule fastcn_GC_bin:
     input:

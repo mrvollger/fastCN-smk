@@ -5,9 +5,6 @@ import os
 import sys
 
 
-scattergather:
-    split=config.get("nchunks", 10),
-
 
 rule split_reads:
     input:
@@ -124,7 +121,7 @@ rule merged_mrsfast_bam:
     input:
         bams=gather.split("temp/mrsfast/{{sample}}/{{sm}}/{scatteritem}.bam"),
     output:
-        merged="results/{sample}/mapping/{sm}_merged.out.gz",
+        merged=temp("results/{sample}/mapping/{sm}_merged.out.gz"),
     conda:
         "../envs/env.yml"
     resources:
