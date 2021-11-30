@@ -4,7 +4,7 @@
 QuicK-mer2/quicKmer2: fastCN/GC_control_gen
 	git clone https://github.com/KiddLab/QuicK-mer2.git \
 		&& cd QuicK-mer2 \
-		&& make \
+		&& gcc -LDFLAGS=${LDFLAGS} QuicKmer.c -O3 -g -pthread -std=c99 -lm -o quicKmer2 \
 		&& cd .. \
 		&& ln -s ../QuicK-mer2/quicKmer2 bin/
 
