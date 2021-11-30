@@ -89,8 +89,8 @@ rule include_file:
     shell:
         """
         bedtools complement \
-            {input.exclude} \
-            {input.fai} \
+            -i {input.exclude} \
+            -g {input.fai} \
             > {output.include}
         """
 
