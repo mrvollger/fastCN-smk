@@ -1,37 +1,37 @@
 
 rule copy_ref:
     input:
-        ref=config["fasta"],
+        ref=config["fasta"]
     output:
-        ref_keep="results/{sample}/{sample}.fasta",
+        ref_keep="results/{sample}/{sample}.fasta"
     log:
-        "logs/{sample}/quickmer/ref.log",
+        "logs/{sample}/quickmer/ref.log"
     resources:
         hrs=1,
-        mem=8,
+        mem=8
     threads: 1
     run:
         if input.ref.endswith(".gz"):
-            shell("gunzip -c {input.ref} > {output.ref_keep}")
+            shell('gunzip -c {input.ref} > {output.ref_keep}')
         else:
-            shell("ln -s $(readlink -f {input.ref}) {output.ref_keep}")
+            shell('ln -s $(readlink -f {input.ref}) {output.ref_keep}')
 
 
 rule generate_ref_file:
     input:
         ref=rules.copy_ref.output.ref_keep,
-        include_bed=config.get("include_bed", rules.include_file.output.include),
+        include_bed=config.get("include_bed", rules.include_file.output.include)
     output:
         bed="results/{sample}/{sample}.fasta.bed",
         qgc="results/{sample}/{sample}.fasta.qgc",
-        qm="results/{sample}/{sample}.fasta.qm",
+        qm="results/{sample}/{sample}.fasta.qm"
     conda:
         "../envs/env.yml"
     log:
-        "logs/{sample}/quickmer/search.log",
+        "logs/{sample}/quickmer/search.log"
     params:
-        kmer=config.get("quickmer_kmer_size", "30"),
-        window_size=config.get("quickmer_window_size", "1000"),
+        kmer = config.get('quickmer_kmer_size', "30"),
+        window_size = config.get('quickmer_window_size',"1000")
     threads: 16
     resources:
         hrs=12,
@@ -44,11 +44,11 @@ rule generate_ref_file:
 
 rule index_ref:
     input:
-        ref="results/{sample}/{sample}.fasta",
+        ref="results/{sample}/{sample}.fasta"
     output:
-        index="results/{sample}/{sample}.fasta.fai",
+        index="results/{sample}/{sample}.fasta.fai"
     log:
-        "logs/{sample}/quickmer/fai.log",
+        "logs/{sample}/quickmer/fai.log"
     conda:
         "../envs/env.yml"
     resources:
@@ -67,14 +67,14 @@ rule quickmer_count:
         ref_qm=config.get("fasta_qm", rules.generate_ref_file.output.qm),
         ref_qgc=config.get("fasta_qgc", rules.generate_ref_file.output.qgc),
         ref_bed=config.get("fasta_bed", rules.generate_ref_file.output.bed),
-        ref=config.get("quickmer_ref", rules.copy_ref.output.ref_keep),
+        ref=config.get("quickmer_ref", rules.copy_ref.output.ref_keep)
     output:
-        qm2="temp/{sample}/sunk/{sm}/{sm}.qm2.txt",
-        qm2_bin="temp/{sample}/sunk/{sm}/{sm}.qm2.bin",
+        qm2= "temp/{sample}/sunk/{sm}/{sm}.qm2.txt",
+        qm2_bin= "temp/{sample}/sunk/{sm}/{sm}.qm2.bin"
     conda:
         "../envs/env.yml"
     log:
-        "logs/{sample}/quickmer/{sm}/count.log",
+        "logs/{sample}/quickmer/{sm}/count.log"
     resources:
         mem=12,
         hrs=12,
@@ -89,23 +89,22 @@ rule quickmer_count:
 rule quickmer_est:
     input:
         qm2_bin=rules.quickmer_count.output.qm2_bin,
-        ref=config.get("quickmer_fasta", rules.copy_ref.output.ref_keep),
+        ref=config.get("quickmer_fasta", rules.copy_ref.output.ref_keep)
     output:
         bed=temp("temp/{sample}/windows/sunk/{sm}.depth.bed.CN.bed"),
-        png="temp/{sample}/sunk/{sm}/{sm}.qm2.png",
+        png="temp/{sample}/sunk/{sm}/{sm}.qm2.png"
     conda:
         "../envs/env.yml"
     log:
-        "logs/{sample}/quickmer/{sm}/est.log",
+        "logs/{sample}/quickmer/{sm}/est.log"
     resources:
         mem=25,
-        hrs=4,
+        hrs=4
     threads: 1
     shell:
         """
         quicKmer2 est {input.ref} $( echo {input.qm2_bin} | sed 's/.bin//' ) {output.bed}
         """
-
 
 '''
 rule quickmer_browser:

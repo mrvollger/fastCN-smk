@@ -5,6 +5,7 @@ import os
 import sys
 
 
+
 rule split_reads:
     input:
         reads=lambda wc: config["reads"][wc.sm],

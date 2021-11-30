@@ -76,7 +76,7 @@ rule exclude_file:
 rule include_file:
     input:
         exclude=rules.exclude_file.output.bed,
-        fasta=config["fasta"]
+        fai=f'{config["fasta"]}.fai'
     output:
         include="results/{sample}/{sample}.include.bed",
     conda:
@@ -90,7 +90,7 @@ rule include_file:
         """
         bedtools complement \
             {input.exclude} \
-            {input.fasta} \
+            {input.fai} \
             > {output.include}
         """
 
