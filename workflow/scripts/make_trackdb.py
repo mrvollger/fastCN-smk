@@ -111,10 +111,19 @@ def html_table(color_dict, h1, h2, rgb=True):
 
 
 with open(snakemake.output.track, "w") as out:
-    out.write(track_db_header.format(type=snakemake.wildcards.type, type_title=snakemake.wildcards.type.upper())
-    [out.write(track.format(sm=sm, type=snakemake.wildcards.type)) for sm in snakemake.params.samples]
+    out.write(
+        track_db_header.format(
+            type=snakemake.wildcards.type, type_title=snakemake.wildcards.type.upper()
+        )
+    )
+    [
+        out.write(track.format(sm=sm, type=snakemake.wildcards.type))
+        for sm in snakemake.params.samples
+    ]
 
-open(snakemake.output.hub, "w").write(hub.format(type_title=snakemake.wildcards.type.upper()))
+open(snakemake.output.hub, "w").write(
+    hub.format(type_title=snakemake.wildcards.type.upper())
+)
 open(snakemake.output.genomes, "w").write(
     genomes.format(sample=snakemake.wildcards.sample)
 )
