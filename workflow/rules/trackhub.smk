@@ -20,8 +20,8 @@ rule make_bb:
         bed=rules.bed_to_bed9.output.bed9,
         fai=config.get("masked_ref", rules.masked_reference.output.fasta) + ".fai",
     output:
-        bed="temp/{sample}/tracks/{type}/{sm}.bed",
-        bigbed="results/{sample}/tracks/{type}/{sm}.bb",
+        bed=temp("temp/{sample}/tracks/{type}/{sm}.bed"),
+        bigbed="results/{sample}/tracks/{type}/bigbed/{sm}_{type}.bb",
     conda:
         "../envs/env.yml"
     resources:
@@ -50,7 +50,7 @@ rule make_trackdb:
         track="results/{sample}/tracks/{type}/trackDb.{sample}.txt",
         hub="results/{sample}/tracks/{type}/hub.txt",
         genomes="results/{sample}/tracks/{type}/genomes.txt",
-        html="results/{sample}/tracks/{type}/description.html",
+        html="results/{sample}/tracks/{type}/bigbed/description.html",
     conda:
         "../envs/env.yml"
     threads: 1
@@ -61,6 +61,6 @@ rule make_trackdb:
         "logs/{sample}/tracks/{type}/trackHub.log",
     params:
         samples=list(config["reads"].keys()),
-        reads=list(config["reads"].values()),
+        reads=list(config["reads"].values())
     script:
         "../scripts/make_trackdb.py"
