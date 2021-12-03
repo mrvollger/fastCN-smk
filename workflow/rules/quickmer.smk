@@ -89,7 +89,7 @@ rule quickmer_count:
 rule quickmer_est:
     input:
         qm2_bin=rules.quickmer_count.output.qm2_bin,
-        ref=config.get("quickmer_fasta", rules.copy_ref.output.ref_keep)
+        ref=config.get("quickmer_ref", rules.copy_ref.output.ref_keep)
     output:
         bed=temp("temp/{sample}/windows/sunk/{sm}.depth.bed.CN.bed"),
         png="temp/{sample}/sunk/{sm}/{sm}.qm2.png"
