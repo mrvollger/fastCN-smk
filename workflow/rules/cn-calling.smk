@@ -67,7 +67,7 @@ rule convert_windows:
         binary=rules.gzip_bin.output.zipped,
         ref_windows=config.get("reference_windows", rules.make_windows.output.bed),
     output:
-        windows=temp("temp/{sample}/windows/{sm}.depth.bed"),
+        windows=temp("temp/{sample}/windows/wssd/{sm}.depth.bed"),
     conda:
         "../envs/env.yml"
     log:
