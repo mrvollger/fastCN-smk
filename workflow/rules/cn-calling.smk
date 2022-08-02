@@ -113,26 +113,3 @@ rule copy_number_call:
 
 
 
-'''
-rule wssd_binary:
-    input:
-        bed=rules.copy_number_call.output.cn_bed,
-        sat_bed=SAT_BED,
-        gap_bed=GAP_BED,
-        cen_bed=CEN_BED,
-    output:
-        wssd_bin="bed/{sample}_wssd_binary.bed",
-        sat_bed=temp("bed/{sample}_wssd_sat.bed"),
-        temp_sat=temp("bed/{sample}_wssd_sat.bed.tmp"),
-    resources:
-        mem=2,
-        hrs=24,
-    threads: 1
-    shell:
-        """
-        bedtools coverage -a {input.bed} -b {input.sat_bed} | cut -f 1-5,8 > {output.temp_sat}
-        {SNAKEMAKE_DIR}/utils/wssd_binary.py -b {output.temp_sat} -o {output.sat_bed}
-        bedtools subtract -a {output.sat_bed} -b {input.gap_bed} | bedtools subtract -a - -b {input.cen_bed} > {output.wssd_bin}
-        """
-'''
-

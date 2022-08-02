@@ -16,6 +16,10 @@ samples_df = pd.read_csv(config["manifest"], sep="\t")
 samples = samples_df["sample"].tolist()
 reads = samples_df["reads"].tolist()
 config["reads"] = dict(zip(samples, reads))
+SAT_BED = config.get('sat_bed', '')
+CEN_BED = config.get('cen_bed', '')
+GAP_BED = config.get('gap_bed', '')
+
 
 
 fai_df = pd.read_csv(

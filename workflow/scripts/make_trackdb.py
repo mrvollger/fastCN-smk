@@ -24,7 +24,7 @@ trackDb trackDb.{sample}.txt
 """
 
 track = """
-    track {type}_{sm}
+    track {sm}_{type}
     parent {type}_cn
     bigDataUrl bigbed/{sm}_{type}.bb
     shortLabel {sm} {type} CN

@@ -8,7 +8,7 @@ rule bed_to_bed9:
     conda:
         "../envs/env.yml"
     resources:
-        mem=4,
+        mem=8,
         hrs=24,
     threads: 1
     script:
@@ -44,7 +44,7 @@ rule make_bb:
 rule make_trackdb:
     input:
         bigwig=expand(
-            rules.make_bb.output, sm=config["reads"].keys(), allow_missing=True
+            rules.make_bb.output.bigbed, sm=config["reads"].keys(), allow_missing=True
         ),
     output:
         track="results/{sample}/tracks/{type}/trackDb.{sample}.txt",
@@ -64,3 +64,31 @@ rule make_trackdb:
         reads=list(config["reads"].values())
     script:
         "../scripts/make_trackdb.py"
+
+
+
+rule wssd_binary:
+    input:
+        bed="results/{sample}/tracks/bed9/wssd/{sm}.bed.gz",
+        sat_bed=SAT_BED,
+        gap_bed=GAP_BED,
+        cen_bed=CEN_BED,
+    output:
+        sat_bed=temp("results/{sample}/wssd/{sm}_wssd_sat.bed"),
+        temp_sat=temp("results/{sample}/wssd/{sm}_wssd_sat.bed.tmp"),
+        wssd_bin="results/{sample}/wssd/{sm}_wssd_binary.bed"
+    conda:
+        "../envs/env.yml"
+    log:
+        "logs/{sample}/wssd/{sm}_binary.log",
+    resources:
+        mem=2,
+        hrs=24,
+    threads: 1
+    shell:
+        """
+        bedtools coverage -a {input.bed} -b {input.sat_bed} | cut -f 1-4,10,14 > {output.temp_sat}
+        {SDIR}/scripts/wssd_binary.py -b {output.temp_sat} -o {output.sat_bed}
+        bedtools subtract -a {output.sat_bed} -b {input.gap_bed} | bedtools subtract -a - -b {input.cen_bed} > {output.wssd_bin}
+        """
+
