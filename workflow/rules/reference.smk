@@ -73,16 +73,17 @@ rule exclude_file:
         > {output.bed}
         """
 
+
 rule include_file:
     input:
         exclude=rules.exclude_file.output.bed,
-        fai=f'{config["fasta"]}.fai'
+        fai=f'{config["fasta"]}.fai',
     output:
         include="results/{sample}/{sample}.include.bed",
     conda:
         "../envs/env.yml"
     log:
-         "logs/{sample}/{sample}.include.log",
+        "logs/{sample}/{sample}.include.log",
     resources:
         mem=6,
         hrs=24,
@@ -93,6 +94,7 @@ rule include_file:
             -g {input.fai} \
             > {output.include}
         """
+
 
 rule fastcn_GC_bin:
     input:

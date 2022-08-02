@@ -61,10 +61,9 @@ rule make_trackdb:
         "logs/{sample}/tracks/{type}/trackHub.log",
     params:
         samples=list(config["reads"].keys()),
-        reads=list(config["reads"].values())
+        reads=list(config["reads"].values()),
     script:
         "../scripts/make_trackdb.py"
-
 
 
 rule wssd_binary:
@@ -76,7 +75,7 @@ rule wssd_binary:
     output:
         sat_bed=temp("results/{sample}/wssd/{sm}_wssd_sat.bed"),
         temp_sat=temp("results/{sample}/wssd/{sm}_wssd_sat.bed.tmp"),
-        wssd_bin="results/{sample}/wssd/{sm}_wssd_binary.bed"
+        wssd_bin="results/{sample}/wssd/{sm}_wssd_binary.bed",
     conda:
         "../envs/env.yml"
     log:
@@ -91,4 +90,3 @@ rule wssd_binary:
         {SDIR}/scripts/wssd_binary.py -b {output.temp_sat} -o {output.sat_bed}
         bedtools subtract -a {output.sat_bed} -b {input.gap_bed} | bedtools subtract -a - -b {input.cen_bed} > {output.wssd_bin}
         """
-

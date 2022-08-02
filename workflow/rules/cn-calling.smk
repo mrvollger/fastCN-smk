@@ -109,7 +109,3 @@ rule copy_number_call:
         """
         depth-to-cn.py --in {input.windows} --autocontrol {input.control_bed} --chrX {input.chrX_control_bed}
         """
-
-
-
-
