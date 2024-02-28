@@ -16,10 +16,9 @@ samples_df = pd.read_csv(config["manifest"], sep="\t")
 samples = samples_df["sample"].tolist()
 reads = samples_df["reads"].tolist()
 config["reads"] = dict(zip(samples, reads))
-SAT_BED = config.get('sat_bed', '')
-CEN_BED = config.get('cen_bed', '')
-GAP_BED = config.get('gap_bed', '')
-
+SAT_BED = config.get("sat_bed", "")
+CEN_BED = config.get("cen_bed", "")
+GAP_BED = config.get("gap_bed", "")
 
 
 fai_df = pd.read_csv(
@@ -49,20 +48,13 @@ rule all:
     input:
         expand(
             rules.make_trackdb.output,
-            sample=config["reference"],type=config.get("type", ["sunk", "wssd"])
+            sample=config["reference"],
+            type=config.get("type", ["sunk", "wssd"]),
         ),
         expand(
-            rules.make_bb.output, sample=config["reference"], sm=config["reads"].keys(), type=config.get("type", ["sunk", "wssd"])
-        ),
-
-
-rule wssd_track:
-    input:
-        expand(
-            rules.make_trackdb.output,
-            sample=config["reference"],type=config.get("type", ["wssd"])
-        ),
-        expand(
-            rules.make_bb.output, sample=config["reference"], sm=config["reads"].keys(), type=config.get("type", ["wssd"])
+            rules.make_bb.output,
+            sample=config["reference"],
+            sm=config["reads"].keys(),
+            type=config.get("type", ["sunk", "wssd"]),
         ),
 
