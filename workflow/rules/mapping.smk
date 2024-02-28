@@ -5,6 +5,15 @@ import os
 import sys
 
 
+def find_reads(wildcards):
+    if config["reads"][wc.sm].endswith("fofn"):
+        with open(config["reads"][wc.sm], "r") as infile:
+            read_list = [x.rstrip() for x in infile]
+        return read_list
+    else:
+        return config["reads"][wc.sm]
+
+
 rule split_reads:
     input:
         reads=lambda wc: config["reads"][wc.sm],
