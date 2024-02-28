@@ -36,11 +36,11 @@ rule split_reads:
     priority: 10
     shell:
         """
-        if [[ {input.reads} =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
+        if [[ $( echo {input.reads} ) =~ \.(fasta|fasta.gz|fa|fa.gz|fastq|fastq.gz|fq|fq.gz)$ ]]; then 
             cat {input.reads} \
                 | seqtk seq -F '#' \
                 | rustybam fastq-split {output.reads} 
-        elif [[ {input.reads} =~ \.(bam|cram|sam|sam.gz)$ ]]; then 
+        elif [[ $( echo {input.reads} ) =~ \.(bam|cram|sam|sam.gz)$ ]]; then 
             samtools fasta -@ {threads} {input.reads} \
                 | seqtk seq -F '#' \
                 | rustybam fastq-split {output.reads} 
