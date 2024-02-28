@@ -16,7 +16,7 @@ def find_reads(wildcards):
 
 rule split_reads:
     input:
-        reads=lambda wc: config["reads"][wc.sm],
+        reads=find_reads,
     output:
         reads=temp(scatter.split("temp/reads/{{sm}}/{scatteritem}.fq.gz")),
     conda:
