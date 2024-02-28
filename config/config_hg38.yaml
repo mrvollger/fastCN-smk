@@ -1,0 +1,14 @@
+reference: "hg38"
+fasta: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/hg38.no_alt.fa
+sd: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/hg38.no_alt.SDs_plus_lowid.bed
+nchunks: 50
+manifest: config/manifest.tbl
+masked_ref: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/{sample}.masked.fasta
+gc_control: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/{sample}.bin
+reference_windows: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/{sample}.windows.bed
+autosome_control: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/{sample}_auto_control.bed
+chrX_control: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/{sample}_chrX_control.bed
+include_bed: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/hg38_include.bed
+sat_bed: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/hg38_sat.bed
+cen_bed: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/hg38_cen.bed
+gap_bed: /net/eichler/vol26/eee_shared/assemblies/hg38/no_alt/fastcn/hg38_gaps.bed

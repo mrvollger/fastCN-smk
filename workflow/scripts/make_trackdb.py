@@ -1,20 +1,20 @@
 track_db_header = """
-track wssd_cn
+track {type}_cn
 compositeTrack off
-shortLabel WSSD CN
-longLabel  WSSD copy number estimates
+shortLabel {type_title} CN
+longLabel  {type_title} copy number estimates
 visibility hide
 priority 30
 type bigBed 9 +
 itemRgb on
 maxItems 100000
-html wssd/description.html
+html bigbed/description.html
 """
 
 hub = """
-hub WSSD_CN
-shortLabel WSSD CN
-longLabel WSSD copy number estimates
+hub {type_title}_CN
+shortLabel {type_title} CN
+longLabel {type_title} copy number estimates
 genomesFile genomes.txt
 email mvollger.edu
 """
@@ -24,10 +24,10 @@ trackDb trackDb.{sample}.txt
 """
 
 track = """
-    track wssd_{sm}
-    parent wssd_cn
-    bigDataUrl wssd/{sm}_wssd.bb
-    shortLabel {sm} wssd CN
+    track {sm}_{type}
+    parent {type}_cn
+    bigDataUrl bigbed/{sm}_{type}.bb
+    shortLabel {sm} {type} CN
     longLabel {sm} Copy Number
     type bigBed 9 +
     itemRgb on
@@ -111,10 +111,19 @@ def html_table(color_dict, h1, h2, rgb=True):
 
 
 with open(snakemake.output.track, "w") as out:
-    out.write(track_db_header)
-    [out.write(track.format(sm=sm)) for sm in snakemake.params.samples]
+    out.write(
+        track_db_header.format(
+            type=snakemake.wildcards.type, type_title=snakemake.wildcards.type.upper()
+        )
+    )
+    [
+        out.write(track.format(sm=sm, type=snakemake.wildcards.type))
+        for sm in snakemake.params.samples
+    ]
 
-open(snakemake.output.hub, "w").write(hub)
+open(snakemake.output.hub, "w").write(
+    hub.format(type_title=snakemake.wildcards.type.upper())
+)
 open(snakemake.output.genomes, "w").write(
     genomes.format(sample=snakemake.wildcards.sample)
 )

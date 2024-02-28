@@ -67,7 +67,7 @@ rule convert_windows:
         binary=rules.gzip_bin.output.zipped,
         ref_windows=config.get("reference_windows", rules.make_windows.output.bed),
     output:
-        windows=temp("temp/{sample}/windows/{sm}.depth.bed"),
+        windows=temp("temp/{sample}/windows/wssd/{sm}.depth.bed"),
     conda:
         "../envs/env.yml"
     log:
@@ -96,7 +96,7 @@ rule copy_number_call:
             "chrX_control", rules.chrX_control_windows.output.bed
         ),
     output:
-        cn_bed=temp("temp/{sample}/windows/{sm}.depth.bed.CN.bed"),
+        cn_bed=temp("temp/{sample}/windows/wssd/{sm}.depth.bed.CN.bed"),
     log:
         "logs/{sample}/windows/{sm}.cn.log",
     conda:
@@ -111,42 +111,5 @@ rule copy_number_call:
         """
 
 
-rule bed_to_bed9:
-    input:
-        cn_bed=rules.copy_number_call.output.cn_bed,
-    output:
-        bed9="results/{sample}/tracks/bed9/{sm}.bed.gz",
-    log:
-        "logs/{sample}/windows/{sm}.bed9.log",
-    conda:
-        "../envs/env.yml"
-    resources:
-        mem=4,
-        hrs=24,
-    threads: 1
-    script:
-        "../scripts/make_bed9.py"
 
 
-'''
-rule wssd_binary:
-    input:
-        bed=rules.copy_number_call.output.cn_bed,
-        sat_bed=SAT_BED,
-        gap_bed=GAP_BED,
-        cen_bed=CEN_BED,
-    output:
-        wssd_bin="bed/{sample}_wssd_binary.bed",
-        sat_bed=temp("bed/{sample}_wssd_sat.bed"),
-        temp_sat=temp("bed/{sample}_wssd_sat.bed.tmp"),
-    resources:
-        mem=2,
-        hrs=24,
-    threads: 1
-    shell:
-        """
-        bedtools coverage -a {input.bed} -b {input.sat_bed} | cut -f 1-5,8 > {output.temp_sat}
-        {SNAKEMAKE_DIR}/utils/wssd_binary.py -b {output.temp_sat} -o {output.sat_bed}
-        bedtools subtract -a {output.sat_bed} -b {input.gap_bed} | bedtools subtract -a - -b {input.cen_bed} > {output.wssd_bin}
-        """
-'''

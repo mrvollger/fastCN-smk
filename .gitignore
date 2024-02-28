@@ -9,3 +9,8 @@ fastCN
 bin
 benchmarks/**
 .crates**
+workflow/condaenv/**
+QuicK-mer2/**
+fastCN/**
+QuicK-mer2
+fastCN

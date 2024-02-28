@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mkdir dir -p logs/drmaa
+mkdir -p logs/drmaa
+
+export PATH=/net/eichler/vol26/7200/software/pipelines/fastCN-smk/bin/:$PATH
 
 snakemake \
     --drmaa " -l centos=7 -l h_rt=48:00:00 -l mfree={resources.mem}G -pe serial {threads} -V -cwd -S /bin/bash -w n" \
