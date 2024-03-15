@@ -86,3 +86,11 @@ rule make_ref:
             rules.chrX_control_windows.output.bed, 
             sample=config["reference"],
         ), 
+
+rule wssd_track:
+    input:
+        expand(
+            rules.make_trackdb.output,
+            sample=config["reference"],
+            type="wssd",
+        ),
