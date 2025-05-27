@@ -37,6 +37,7 @@ wildcard_constraints:
 scattergather:
     split=config.get("nchunks", 10),
 
+
 include: "rules/reference.smk"
 include: "rules/mapping.smk"
 include: "rules/cn-calling.smk"
@@ -59,33 +60,33 @@ rule all:
         ),
 
 
-
 rule make_ref:
     input:
         expand(
-            rules.fastcn_GC_bin.output.bin, 
+            rules.fastcn_GC_bin.output.bin,
             sample=config["reference"],
         ),
         expand(
-            rules.masked_reference.output.fasta, 
+            rules.masked_reference.output.fasta,
             sample=config["reference"],
         ),
         expand(
-            rules.masked_reference.output.fai, 
-            sample=config["reference"],
-        ), 
-        expand(
-            rules.make_windows.output.bed, 
-            sample=config["reference"],
-        ), 
-        expand(
-            rules.autosome_control_windows.output.bed, 
+            rules.masked_reference.output.fai,
             sample=config["reference"],
         ),
         expand(
-            rules.chrX_control_windows.output.bed, 
+            rules.make_windows.output.bed,
             sample=config["reference"],
-        ), 
+        ),
+        expand(
+            rules.autosome_control_windows.output.bed,
+            sample=config["reference"],
+        ),
+        expand(
+            rules.chrX_control_windows.output.bed,
+            sample=config["reference"],
+        ),
+
 
 rule wssd_track:
     input:

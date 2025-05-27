@@ -106,6 +106,7 @@ rule quickmer_est:
         quicKmer2 est {input.ref} $( echo {input.qm2_bin} | sed 's/.bin//' ) {output.bed}
         """
 
+
 '''
 rule quickmer_browser:
     input:

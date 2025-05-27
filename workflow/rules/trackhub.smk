@@ -61,7 +61,7 @@ rule make_trackdb:
         "logs/{sample}/tracks/{type}/trackHub.log",
     params:
         samples=list(config["reads"].keys()),
-        reads=list(config["reads"].values())
+        reads=list(config["reads"].values()),
     script:
         "../scripts/make_trackdb.py"
 
