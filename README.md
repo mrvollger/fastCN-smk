@@ -7,9 +7,30 @@
 
 The `Snakefile` is under `workflow`.
 
-## Installing
 
-Most installing is done by `Snakemake` but there is one small Makefile. Please refer to it so you can properly set your LD path before using.
+# Install
+
+Please start by installing [pixi](https://pixi.sh/latest/) which handles the environment of this Snakemake workflow.
+
+
+You can then install the pixi environment by cloning this repository and running:
+
+```
+make && pixi install
+```
+
+# Usage
+pixi handles the execution of the Snakemake workflows:
+```
+pixi run snakemake ...
+```
+And if you want to run this Snakemake from another directory you can do so with:
+```
+pixi run --manifest-path /path/to/snakemake/pixi.toml snakemake ...
+```
+where you update `/path/to/snakemake/pixi.toml` to the path of the `pixi.toml` you cloned.
+
+And in place of ... use all the normal Snakemake arguments for your workflow.
 
 ## Configuration
 
