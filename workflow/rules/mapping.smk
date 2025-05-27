@@ -22,8 +22,8 @@ rule split_reads:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*2,
-        hrs=8,
+        mem_mb=1024 * 2,
+        runtime=60 * 8,
         load=100,  # seeting a high load here so that only a few can run at once
     params:
         sdir=SDIR,
@@ -58,8 +58,8 @@ rule mrsfast_index:
     log:
         "logs/mrsfast/index.{sample}.log",
     resources:
-        mem_mb=1024*8,
-        hrs=24,
+        mem_mb=1024 * 8,
+        runtime=60 * 24,
     threads: 1
     shell:
         """
@@ -77,9 +77,9 @@ rule mrsfast_alignment:
     conda:
         "../envs/env.yml"
     resources:
-        total_mem_mb=1024*lambda wildcards, attempt, threads: 4 * attempt * threads - 2,
-        mem_mb=1024*lambda wildcards, attempt, threads: 4 * attempt * threads,
-        hrs=2,
+        total_mem=lambda wildcards, attempt, threads: 4 * attempt * threads - 2,
+        mem_mb=lambda wildcards, attempt, threads: 1024 * 4 * attempt * threads,
+        runtime=60 * 2,
         load=1,
     log:
         "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
@@ -110,8 +110,8 @@ rule mrsfast_sort:
     benchmark:
         "benchmarks/{sample}/sort_bam/{sm}/{scatteritem}.tbl"
     resources:
-        mem_mb=1024*4,
-        hrs=24,
+        mem_mb=1024 * 4,
+        runtime=60 * 24,
         load=1,
     threads: 2
     priority: 30
@@ -133,8 +133,8 @@ rule merged_mrsfast_bam:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*4,
-        hrs=24,
+        mem_mb=1024 * 4,
+        runtime=60 * 24,
     benchmark:
         "benchmarks/{sample}/merge_mrsfast/{sm}.tbl"
     log:
@@ -159,8 +159,8 @@ rule compress_mrsfast_further:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*2,
-        hrs=24,
+        mem_mb=1024 * 2,
+        runtime=60 * 24,
         load=25,
     benchmark:
         "benchmarks/{sample}/comp_mrsfast/{sm}.tbl"

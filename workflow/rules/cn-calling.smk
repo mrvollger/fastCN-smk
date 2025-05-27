@@ -7,8 +7,8 @@ rule unpack_mrsfast:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*2,
-        hrs=24,
+        mem_mb=1024 * 2,
+        runtime=60 * 24,
         load=1,
     threads: 1
     benchmark:
@@ -31,8 +31,8 @@ rule GC_correct:
     log:
         "logs/{sample}/binary/{sm}.log",
     resources:
-        mem_mb=1024*8,
-        hrs=24,
+        mem_mb=1024 * 8,
+        runtime=60 * 24,
     threads: 1
     shell:
         """
@@ -50,8 +50,8 @@ rule gzip_bin:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*8,
-        hrs=24,
+        mem_mb=1024 * 8,
+        runtime=60 * 24,
     threads: 4
     log:
         "logs/{sample}/binary/{sm}.gz.log",
@@ -73,8 +73,8 @@ rule convert_windows:
     log:
         "logs/{sample}/windows/{sm}.log",
     resources:
-        mem_mb=1024*16,
-        hrs=24,
+        mem_mb=1024 * 16,
+        runtime=60 * 24,
     threads: 1
     shell:
         """
@@ -102,8 +102,8 @@ rule copy_number_call:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*16,
-        hrs=24,
+        mem_mb=1024 * 16,
+        runtime=60 * 24,
     threads: 1
     shell:
         """

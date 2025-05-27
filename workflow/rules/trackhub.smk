@@ -8,8 +8,8 @@ rule bed_to_bed9:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*8,
-        hrs=24,
+        mem_mb=1024 * 8,
+        runtime=60 * 24,
     threads: 1
     script:
         "../scripts/make_bed9.py"
@@ -25,8 +25,8 @@ rule make_bb:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*2,
-        hrs=24,
+        mem_mb=1024 * 2,
+        runtime=60 * 24,
     threads: 1
     log:
         "logs/{sample}/tracks/{type}/{sm}.bigbed.log",
@@ -55,8 +55,8 @@ rule make_trackdb:
         "../envs/env.yml"
     threads: 1
     resources:
-        mem_mb=1024*2,
-        hrs=24,
+        mem_mb=1024 * 2,
+        runtime=60 * 24,
     log:
         "logs/{sample}/tracks/{type}/trackHub.log",
     params:
@@ -83,8 +83,8 @@ rule wssd_binary:
     log:
         "logs/{sample}/wssd/{sm}_binary.log",
     resources:
-        mem_mb=1024*2,
-        hrs=24,
+        mem_mb=1024 * 2,
+        runtime=60 * 24,
     threads: 1
     shell:
         """

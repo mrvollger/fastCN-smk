@@ -7,7 +7,7 @@ wildcard_constraints:
 
 module Rhodonite:
     snakefile:
-      #"https://github.com/mrvollger/Rhodonite/raw/master/workflow/Snakefile"
+        #"https://github.com/mrvollger/Rhodonite/raw/master/workflow/Snakefile"
         "https://github.com/mrvollger/Rhodonite/raw/test/workflow/Snakefile"
     config:
         mask_config
@@ -33,8 +33,8 @@ rule mask_file:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*6,
-        hrs=24,
+        mem_mb=1024 * 6,
+        runtime=60 * 24,
     threads: 1
     shell:
         """
@@ -61,8 +61,8 @@ rule exclude_file:
     params:
         window=400,
     resources:
-        mem_mb=1024*6,
-        hrs=24,
+        mem_mb=1024 * 6,
+        runtime=60 * 24,
     shell:
         """
         cat \
@@ -86,8 +86,8 @@ rule include_file:
     log:
         "logs/{sample}/{sample}.include.log",
     resources:
-        mem_mb=1024*6,
-        hrs=24,
+        mem_mb=1024 * 6,
+        runtime=60 * 24,
     shell:
         """
         bedtools complement \
@@ -112,8 +112,8 @@ rule fastcn_GC_bin:
     params:
         window=400,
     resources:
-        mem_mb=1024*6,
-        hrs=24,
+        mem_mb=1024 * 6,
+        runtime=60 * 24,
     shell:
         """
         GC_control_gen \
@@ -139,8 +139,8 @@ rule masked_reference:
     log:
         "logs/{sample}/mask_reference.log",
     resources:
-        mem_mb=1024*6,
-        hrs=24,
+        mem_mb=1024 * 6,
+        runtime=60 * 24,
     threads: 1
     shell:
         """
@@ -164,8 +164,8 @@ rule make_windows:
     params:
         window=config.get("window", 1000),
     resources:
-        mem_mb=1024*6,
-        hrs=24,
+        mem_mb=1024 * 6,
+        runtime=60 * 24,
     script:
         "../scripts/windows.py"
 
@@ -182,8 +182,8 @@ rule autosome_control_windows:
     log:
         "logs/{sample}/{sample}.auto_control.log",
     resources:
-        mem_mb=1024*8,
-        hrs=24,
+        mem_mb=1024 * 8,
+        runtime=60 * 24,
     threads: 1
     shell:
         """
@@ -205,8 +205,8 @@ rule chrX_control_windows:
     output:
         bed="results/{sample}/{sample}_chrX_control.bed",
     resources:
-        mem_mb=1024*8,
-        hrs=24,
+        mem_mb=1024 * 8,
+        runtime=60 * 24,
     log:
         "logs/{sample}/{sample}.chr_control.log",
     conda:

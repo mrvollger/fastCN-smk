@@ -7,8 +7,8 @@ rule copy_ref:
     log:
         "logs/{sample}/quickmer/ref.log",
     resources:
-        hrs=1,
-        mem_mb=1024*8,
+        runtime=60 * 1,
+        mem_mb=1024 * 8,
     threads: 1
     run:
         if input.ref.endswith(".gz"):
@@ -34,8 +34,8 @@ rule generate_ref_file:
         window_size=config.get("quickmer_window_size", "1000"),
     threads: 16
     resources:
-        hrs=12,
-        mem_mb=1024*5,
+        runtime=60 * 12,
+        mem_mb=1024 * 5,
     shell:
         """
         quicKmer2 search -k {params.kmer} -t 20 -s 3G -e 2 -d 100 -w {params.window_size} -c {input.include_bed} {input.ref}
@@ -52,8 +52,8 @@ rule index_ref:
     conda:
         "../envs/env.yml"
     resources:
-        mem_mb=1024*12,
-        hrs=2,
+        mem_mb=1024 * 12,
+        runtime=60 * 2,
     threads: 1
     shell:
         """
@@ -76,8 +76,8 @@ rule quickmer_count:
     log:
         "logs/{sample}/quickmer/{sm}/count.log",
     resources:
-        mem_mb=1024*12,
-        hrs=12,
+        mem_mb=1024 * 12,
+        runtime=60 * 12,
     threads: 8
     shell:
         """
@@ -98,8 +98,8 @@ rule quickmer_est:
     log:
         "logs/{sample}/quickmer/{sm}/est.log",
     resources:
-        mem_mb=1024*25,
-        hrs=4,
+        mem_mb=1024 * 25,
+        runtime=60 * 4,
     threads: 1
     shell:
         """
@@ -119,7 +119,7 @@ rule quickmer_browser:
         "logs/{sample}/quickmer/{sm}/bed.log"
     resources:
         mem_mb=1024*12,
-        hrs=3
+        runtime=60*3
     threads: 1
     shell:
         """
