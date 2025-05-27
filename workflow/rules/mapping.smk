@@ -5,7 +5,7 @@ import os
 import sys
 
 
-def find_reads(wildcards):
+def find_reads(wc):
     if config["reads"][wc.sm].endswith("fofn"):
         with open(config["reads"][wc.sm], "r") as infile:
             read_list = [x.rstrip() for x in infile]
