@@ -8,7 +8,7 @@ rule bed_to_bed9:
     conda:
         "../envs/env.yml"
     resources:
-        mem=8,
+        mem_mb=1024*8,
         hrs=24,
     threads: 1
     script:
@@ -25,7 +25,7 @@ rule make_bb:
     conda:
         "../envs/env.yml"
     resources:
-        mem=2,
+        mem_mb=1024*2,
         hrs=24,
     threads: 1
     log:
@@ -55,7 +55,7 @@ rule make_trackdb:
         "../envs/env.yml"
     threads: 1
     resources:
-        mem=2,
+        mem_mb=1024*2,
         hrs=24,
     log:
         "logs/{sample}/tracks/{type}/trackHub.log",
@@ -83,7 +83,7 @@ rule wssd_binary:
     log:
         "logs/{sample}/wssd/{sm}_binary.log",
     resources:
-        mem=2,
+        mem_mb=1024*2,
         hrs=24,
     threads: 1
     shell:

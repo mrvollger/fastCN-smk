@@ -6,7 +6,9 @@ import pandas as pd
 
 min_version("8.0")
 
-SDIR = os.path.realpath(os.path.dirname(srcdir("Snakefile")))
+SDIR = os.path.realpath(os.path.dirname(workflow.source_path("Snakefile")))
+print(SDIR, file=sys.stderr)
+
 shell.prefix(
     #f"export PATH=$PWD/fastCN:$PATH; module load gcc/10.2.0 libevent/2.1.8 tmux/2.8 samtools/1.13; set -eo pipefail;"
     f"export PATH=$PWD/fastCN:$PATH; set -eo pipefail;"

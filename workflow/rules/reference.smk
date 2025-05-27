@@ -33,7 +33,7 @@ rule mask_file:
     conda:
         "../envs/env.yml"
     resources:
-        mem=6,
+        mem_mb=1024*6,
         hrs=24,
     threads: 1
     shell:
@@ -61,7 +61,7 @@ rule exclude_file:
     params:
         window=400,
     resources:
-        mem=6,
+        mem_mb=1024*6,
         hrs=24,
     shell:
         """
@@ -86,7 +86,7 @@ rule include_file:
     log:
         "logs/{sample}/{sample}.include.log",
     resources:
-        mem=6,
+        mem_mb=1024*6,
         hrs=24,
     shell:
         """
@@ -112,7 +112,7 @@ rule fastcn_GC_bin:
     params:
         window=400,
     resources:
-        mem=6,
+        mem_mb=1024*6,
         hrs=24,
     shell:
         """
@@ -139,7 +139,7 @@ rule masked_reference:
     log:
         "logs/{sample}/mask_reference.log",
     resources:
-        mem=6,
+        mem_mb=1024*6,
         hrs=24,
     threads: 1
     shell:
@@ -164,7 +164,7 @@ rule make_windows:
     params:
         window=config.get("window", 1000),
     resources:
-        mem=6,
+        mem_mb=1024*6,
         hrs=24,
     script:
         "../scripts/windows.py"
@@ -182,7 +182,7 @@ rule autosome_control_windows:
     log:
         "logs/{sample}/{sample}.auto_control.log",
     resources:
-        mem=8,
+        mem_mb=1024*8,
         hrs=24,
     threads: 1
     shell:
@@ -205,7 +205,7 @@ rule chrX_control_windows:
     output:
         bed="results/{sample}/{sample}_chrX_control.bed",
     resources:
-        mem=8,
+        mem_mb=1024*8,
         hrs=24,
     log:
         "logs/{sample}/{sample}.chr_control.log",
