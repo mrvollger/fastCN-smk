@@ -6,8 +6,6 @@ import pandas as pd
 
 min_version("8.0")
 
-SDIR = os.path.realpath(os.path.dirname(workflow.source_path("Snakefile")))
-print(SDIR, file=sys.stderr)
 
 shell.prefix(
     # f"export PATH=$PWD/fastCN:$PATH; module load gcc/10.2.0 libevent/2.1.8 tmux/2.8 samtools/1.13; set -eo pipefail;"
@@ -48,18 +46,23 @@ include: "rules/quickmer.smk"
 include: "rules/trackhub.smk"
 
 
+# could also inlcude sunk
+types = config.get("types", ["wssd"])
+
+
+
 rule all:
     input:
         expand(
             rules.make_trackdb.output,
             sample=config["reference"],
-            type=config.get("type", ["sunk", "wssd"]),
+            type=types,
         ),
         expand(
             rules.make_bb.output,
             sample=config["reference"],
             sm=config["reads"].keys(),
-            type=config.get("type", ["sunk", "wssd"]),
+            type=types,
         ),
 
 

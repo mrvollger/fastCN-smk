@@ -16,7 +16,11 @@ Please start by installing [pixi](https://pixi.sh/latest/) which handles the env
 You can then install the pixi environment by cloning this repository and running:
 
 ```
-make && pixi install
+pixi install
+```
+and then you **must** execute the test case before trying your own data:
+```
+pixi run test
 ```
 
 # Usage

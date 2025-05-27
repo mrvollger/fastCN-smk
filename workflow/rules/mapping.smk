@@ -26,7 +26,6 @@ rule split_reads:
         runtime=60 * 8,
         load=100,  # seeting a high load here so that only a few can run at once
     params:
-        sdir=SDIR,
         unzipped=scatter.split("temp/reads/{{sm}}/{scatteritem}.fq"),
     log:
         "logs/split_reads/{sm}.log",
@@ -73,7 +72,7 @@ rule mrsfast_alignment:
         index=rules.mrsfast_index.output.index,
         ref=config.get("masked_ref", rules.masked_reference.output.fasta),
     output:
-        sam=temp("temp/mrsfast/{sample}/{sm}/{scatteritem}.sam.gz"),
+        sam=temp("temp/mrsfast/{sample}/{sm}/mrsfast.{scatteritem}.sam.gz"),
     conda:
         "../envs/env.yml"
     resources:
@@ -89,11 +88,13 @@ rule mrsfast_alignment:
     priority: 20
     shell:
         """
+        mkdir -p $(dirname {output.sam})
+
         extract-from-fastq36.py --in {input.reads} \
             | mrsfast --search {input.ref} --seq /dev/stdin \
                 --disable-nohits --mem {resources.total_mem} --threads {threads} \
                 -e 2 --outcomp \
-                -o $(dirname {output.sam})/{wildcards.scatteritem} \
+                -o $(dirname {output.sam})/mrsfast.{wildcards.scatteritem} \
             > {log} 2>&1
         """
 

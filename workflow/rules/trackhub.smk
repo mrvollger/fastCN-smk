@@ -31,7 +31,7 @@ rule make_bb:
     log:
         "logs/{sample}/tracks/{type}/{sm}.bigbed.log",
     params:
-        as_file=f"{SDIR}/utils/track.as",
+        as_file=workflow.source_path("../utils/track.as"),
     shell:
         """
         zcat {input.bed} > {output.bed}
@@ -77,7 +77,7 @@ rule wssd_binary:
         temp_sat=temp("results/{sample}/wssd/{sm}_wssd_sat.bed.tmp"),
         wssd_bin="results/{sample}/wssd/{sm}_wssd_binary.bed",
     params:
-        sdir=SDIR,
+        script=workflow.source_path("../scripts/wssd_binary.py"),
     conda:
         "../envs/env.yml"
     log:
@@ -89,6 +89,6 @@ rule wssd_binary:
     shell:
         """
         bedtools coverage -a {input.bed} -b {input.sat_bed} | cut -f 1-4,10,14 > {output.temp_sat}
-        {params.sdir}/scripts/wssd_binary.py -b {output.temp_sat} -o {output.sat_bed}
+        python {params.script} -b {output.temp_sat} -o {output.sat_bed}
         bedtools subtract -a {output.sat_bed} -b {input.gap_bed} | bedtools subtract -a - -b {input.cen_bed} > {output.wssd_bin}
         """
