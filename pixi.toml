@@ -25,11 +25,11 @@ snakemake = { cmd = "cd $INIT_CWD && snakemake -s $PIXI_PROJECT_ROOT/workflow/Sn
 
 [dependencies]
 conda = "*"
-snakemake = "==8.21"
+snakemake = "9.5.*"
 snakefmt = "*"
 ruff = "*"
 taplo = "*"
-snakemake-executor-plugin-slurm = "*"
+snakemake-executor-plugin-slurm = "1.3.*"
 
 #[target.linux-64.dependencies]
 #apptainer = { channel = "conda-forge" }
