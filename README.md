@@ -25,6 +25,7 @@ pixi handles the execution of the Snakemake workflows:
 ```
 pixi run snakemake ...
 ```
+
 And if you want to run this Snakemake from another directory you can do so with:
 ```
 pixi run --manifest-path /path/to/snakemake/pixi.toml snakemake ...
@@ -32,6 +33,16 @@ pixi run --manifest-path /path/to/snakemake/pixi.toml snakemake ...
 where you update `/path/to/snakemake/pixi.toml` to the path of the `pixi.toml` you cloned.
 
 And in place of ... use all the normal Snakemake arguments for your workflow.
+
+## Cluster submission
+
+You can also use profiles to submit to a cluster. E.g. the include profile works on slurm clusters:
+
+```
+pixi run snakemake --profile profiles/slurm-executor
+```
+
+You will likly need to configure your own profile as described in the snakemake docs to allow for other submission systems.
 
 ## Configuration
 
