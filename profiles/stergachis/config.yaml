@@ -5,6 +5,6 @@ max-jobs-per-second: 50
 default-resources:
   - disk_mb=4096
   - mem_mb=16096
-  - runtime=120
+  - runtime=500
   - slurm_account=stergachislab
   - slurm_partition=cpu-g2
