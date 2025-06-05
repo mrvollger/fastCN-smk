@@ -80,8 +80,6 @@ rule mrsfast_alignment:
         mem_mb=lambda wildcards, attempt, threads: 1024 * 4 * attempt * threads,
         runtime=60 * 2,
         load=1,
-    log:
-        "logs/mrsfast/{sample}/{sm}/{scatteritem}.log",
     benchmark:
         "benchmarks/{sample}/mrsfast/{sm}/{scatteritem}.tbl"
     threads: 4
@@ -94,8 +92,7 @@ rule mrsfast_alignment:
             | mrsfast --search {input.ref} --seq /dev/stdin \
                 --disable-nohits --mem {resources.total_mem} --threads {threads} \
                 -e 2 --outcomp \
-                -o $(dirname {output.sam})/mrsfast.{wildcards.scatteritem} \
-            > {log} 2>&1
+                -o $(dirname {output.sam})/mrsfast.{wildcards.scatteritem}
         """
 
 
