@@ -76,9 +76,9 @@ rule mrsfast_alignment:
     conda:
         "../envs/env.yml"
     resources:
-        total_mem=lambda wildcards, attempt, threads: 4 * attempt * threads - 2,
-        mem_mb=lambda wildcards, attempt, threads: 1024 * 4 * attempt * threads,
-        runtime=60 * 2,
+        total_mem=lambda wildcards, attempt, threads: 8 * attempt * threads - 2,
+        mem_mb=lambda wildcards, attempt, threads: 1024 * 8 * attempt * threads,
+        runtime=60 * 4,
         load=1,
     benchmark:
         "benchmarks/{sample}/mrsfast/{sm}/{scatteritem}.tbl"

@@ -17,7 +17,7 @@ module Rhodonite:
 use rule * from Rhodonite as Rhodonite_*
 
 
-shell.prefix(f"export PATH=$PWD/fastCN:$PATH; set -eo pipefail;")
+shell.prefix(f"export PATH={SDIR}/fastCN:$PATH; set -eo pipefail;")
 
 
 rule mask_file:
